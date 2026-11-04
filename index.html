@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Portfolio // Terminal v2.4</title>
+
+  <!-- Google Fonts: Monospace & Pixel-like modern stacks -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN for rapid, rock-solid responsiveness -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            term: {
+              black: '#0a0d12',
+              card: '#11151c',
+              border: '#232a35',
+              green: '#00ff9c',
+              cyan: '#38bdf8',
+              amber: '#f59e0b',
+              muted: '#85929e',
+            }
+          },
+          fontFamily: {
+            mono: ['"Fira Code"', 'monospace'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+          },
+          boxShadow: {
+            'pixel-glow': '0 0 15px rgba(0, 255, 156, 0.25)',
+            'cyan-glow': '0 0 15px rgba(56, 189, 248, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom CRT Scanlines & Pixel details */
+    :root {
+      --scanline-opacity: 0.12;
+    }
+
+    body {
+      background-color: #0a0d12;
+      color: #e2e8f0;
+      font-family: 'Fira Code', monospace;
+      overflow-x: hidden;
+    }
+
+    /* Subtle CRT screen scanline overlay */
+    .scanlines {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.35) 50%
+      ), linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.03),
+        rgba(0, 255, 0, 0.01),
+        rgba(0, 0, 255, 0.03)
+      );
+      background-size: 100% 3px, 6px 100%;
+      opacity: var(--scanline-opacity);
+      transition: opacity 0.3s ease;
+    }
+
+    /* Pixel art border style */
+    .pixel-box {
+      border: 2px solid #232a35;
+      box-shadow: 3px 3px 0px #00ff9c;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pixel-box:hover {
+      box-shadow: 5px 5px 0px #38bdf8;
+      border-color: #38bdf8;
+      transform: translate(-2px, -2px);
+    }
+
+    /* Pixel button */
+    .pixel-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #00ff9c;
+      background: transparent;
+      color: #00ff9c;
+      box-shadow: 3px 3px 0px #00ff9c;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .pixel-btn:hover {
+      background-color: #00ff9c;
+      color: #0a0d12;
+      box-shadow: 4px 4px 0px #38bdf8;
+      transform: translate(-1px, -1px);
+    }
+    .pixel-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #00ff9c;
+    }
+
+    /* Blinking terminal cursor */
+    .term-cursor {
+      display: inline-block;
+      width: 0.55em;
+      height: 1.15em;
+      background: #00ff9c;
+      vertical-align: -0.15em;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0d12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #232a35;
+      border: 1px solid #00ff9c;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00ff9c;
+    }
+  </style>
+</head>
+<body class="selection:bg-term-green selection:text-term-black">
+
+  <!-- Scanline CRT Effect Overlay -->
+  <div id="scanline-overlay" class="scanlines"></div>
+
+  <!-- Notification Toast (For copying command / email) -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-term-card border border-term-green text-term-green px-4 py-3 rounded-none shadow-pixel-glow text-sm flex items-center space-x-2">
+    <span>✔</span>
+    <span id="toast-msg">Copied to clipboard!</span>
+  </div>
+
+  <!-- ========================================================
+       TOP NAVIGATION BAR
+       ======================================================== -->
+  <header class="fixed top-0 left-0 w-full z-40 bg-term-black/85 backdrop-blur-md border-b border-term-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Logo Container -->
+      <a href="#hero" class="flex items-center space-x-3 group" title="Return to top">
+        <!-- 
+          USER LOGO:
+          You can replace the <img> src below with your custom file:
+          e.g., src="assets/logo.png" or "assets/logo.svg"
+        -->
+        <div class="w-10 h-10 border border-term-green/60 p-1 bg-term-card relative flex items-center justify-center transition-transform group-hover:scale-105">
+          <img 
+            id="user-logo"
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300ff9c'><path d='M3 3h4v4H3zm6 0h6v2H9zm8 0h4v4h-4zM7 9h10v2H7zm-2 4h14v2H5zm3 4h8v2H8zm3 2h2v2h-2z'/></svg>"
+            alt="Portfolio Logo"
+            class="w-full h-full object-contain filter drop-shadow"
+            onerror="this.src='https://placehold.co/40x40/11151c/00ff9c?text=DEV'"
+          />
+        </div>
+        <span class="text-xs sm:text-sm font-semibold tracking-wider text-slate-300 group-hover:text-term-green transition-colors">
+          root@sys:<span class="text-term-cyan">~</span>#
+        </span>
+      </a>
+
+      <!-- Desktop Terminal Bracket Navigation -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-3 text-xs tracking-wider">
+        <a href="#about" class="px-3 py-2 text-slate-400 hover:text-term-green hover:bg-term-card transition-all">
+          <span class="text-term-green/50">[</span> 01. about <span class="text-term-green/50">]</span>
+        </a>
+        <a href="#skills" class="px-3 py-2 text-slate-400 hover:text-term-cyan hover:bg-term-card transition-all">
+          <span class="text-term-cyan/50">[</span> 02. skills <span class="text-term-cyan/50">]</span>
+        </a>
+        <a href="#projects" class="px-3 py-2 text-slate-400 hover:text-term-green hover:bg-term-card transition-all">
+          <span class="text-term-green/50">[</span> 03. projects <span class="text-term-green/50">]</span>
+        </a>
+        <a href="#contact" class="px-3 py-2 text-slate-400 hover:text-term-cyan hover:bg-term-card transition-all">
+          <span class="text-term-cyan/50">[</span> 04. contact <span class="text-term-cyan/50">]</span>
+        </a>
+      </nav>
+
+      <!-- Settings & Mobile Hamburger Toggle -->
+      <div class="flex items-center space-x-2">
+        <!-- Scanline FX Toggle -->
+        <button 
+          id="crt-toggle-btn"
+          aria-label="Toggle CRT Scanline Effect"
+          title="Toggle CRT Scanline Effect"
+          class="text-xs px-2.5 py-1.5 border border-term-border text-term-muted hover:text-term-green hover:border-term-green transition-colors"
+        >
+          CRT: <span id="crt-status" class="text-term-green">ON</span>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button 
+          id="mobile-menu-btn" 
+          aria-label="Open Navigation Menu"
+          class="md:hidden text-term-green p-2 border border-term-border hover:border-term-green"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-term-border bg-term-black px-6 py-4 space-y-3">
+      <a href="#about" class="block text-sm text-slate-300 hover:text-term-green">[ 01. about ]</a>
+      <a href="#skills" class="block text-sm text-slate-300 hover:text-term-cyan">[ 02. skills ]</a>
+      <a href="#projects" class="block text-sm text-slate-300 hover:text-term-green">[ 03. projects ]</a>
+      <a href="#contact" class="block text-sm text-slate-300 hover:text-term-cyan">[ 04. contact ]</a>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+
+    <!-- ========================================================
+         HERO SECTION (Terminal Window)
+         ======================================================== -->
+    <section id="hero" class="mb-24">
+      <!-- Terminal Window Frame -->
+      <div class="border border-term-border bg-term-card shadow-2xl relative">
+        <!-- Terminal Top Bar -->
+        <div class="h-8 bg-term-border/40 border-b border-term-border px-4 flex items-center justify-between select-none">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block"></span>
+            <span class="ml-2 text-[11px] text-term-muted">bash - dev@portfolio:~</span>
+          </div>
+          <div class="text-[10px] text-term-muted tracking-widest uppercase">status: online</div>
+        </div>
+
+        <!-- Terminal Body -->
+        <div class="p-6 sm:p-10 space-y-6">
+          <div class="space-y-1">
+            <div class="text-xs text-term-muted flex items-center space-x-2">
+              <span class="text-term-green">visitor@host</span>
+              <span>:</span>
+              <span class="text-term-cyan">~/whoami</span>
+              <span>$ run greeting.sh</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white pt-2">
+              HELLO WORLD, I'M <span class="text-term-green" id="hero-name">ALEX RIVERS</span>
+            </h1>
+          </div>
+
+          <!-- Typewriter line -->
+          <div class="text-base sm:text-xl text-slate-300 min-h-[32px] flex items-center">
+            <span class="text-term-cyan mr-2">&gt;</span>
+            <span id="typewriter-text" class="text-slate-100 font-medium"></span>
+            <span class="term-cursor ml-0.5"></span>
+          </div>
+
+          <p class="text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
+            Building performant web applications, low-latency microservices, and pixel-precise interactive frontends. Clean architecture with zero bloat.
+          </p>
+
+          <!-- Terminal quick execution banner / copy command -->
+          <div class="pt-2 flex flex-wrap items-center gap-3">
+            <a href="#projects" class="pixel-btn px-5 py-2.5 text-xs font-semibold tracking-wider uppercase">
+              VIEW PROJECTS
+            </a>
+            <a href="#contact" class="pixel-btn px-5 py-2.5 text-xs font-semibold tracking-wider uppercase border-term-cyan text-term-cyan hover:bg-term-cyan hover:text-term-black">
+              PING ME
+            </a>
+
+            <!-- Quick copy command -->
+            <button 
+              id="copy-npx-btn" 
+              class="border border-term-border bg-term-black/60 hover:border-term-green/70 px-4 py-2.5 text-xs text-slate-300 flex items-center space-x-2 transition-colors"
+              title="Click to copy quick email command"
+            >
+              <span class="text-term-green">$</span>
+              <span>npx alex-rivers</span>
+              <span class="text-term-muted text-[10px] ml-2 border border-term-border px-1">copy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         ABOUT SECTION
+         ======================================================== -->
+    <section id="about" class="mb-24 scroll-mt-24">
+      <div class="flex items-center space-x-2 text-xs text-term-green mb-3">
+        <span>01/</span>
+        <span class="uppercase tracking-widest">cat bio.txt</span>
+      </div>
+      <h2 class="text-2xl font-bold tracking-tight text-white mb-6 flex items-center space-x-3">
+        <span>ABOUT THE ARCHITECT</span>
+        <span class="h-px bg-term-border flex-1"></span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Bio Card -->
+        <div class="md:col-span-2 border border-term-border bg-term-card p-6 space-y-4">
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            I am a full-stack engineer passionate about clean abstractions, high reliability, and retro-modern design aesthetics. I design systems that scale without unnecessary baggage and write maintainable, tested code.
+          </p>
+          <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+            When I'm not writing code, I enjoy tinkering with game dev engines, mechanical keyboards, and contributing to open-source software.
+          </p>
+
+          <div class="pt-2 grid grid-cols-2 gap-4 border-t border-term-border text-xs">
+            <div>
+              <span class="text-term-muted block">LOCATION:</span>
+              <span class="text-slate-200">San Francisco, CA / Remote</span>
+            </div>
+            <div>
+              <span class="text-term-muted block">STATUS:</span>
+              <span class="text-term-green">Available for Contract</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terminal Stats / Sysinfo -->
+        <div class="border border-term-border bg-term-card p-6 space-y-3 font-mono text-xs">
+          <div class="text-term-cyan border-b border-term-border pb-2 uppercase tracking-wider">
+            &gt; SYSTEM SPECS
+          </div>
+          <div class="flex justify-between py-1 border-b border-term-border/40">
+            <span class="text-term-muted">EXP:</span>
+            <span class="text-slate-200">4+ Years</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-term-border/40">
+            <span class="text-term-muted">DEPLOYMENTS:</span>
+            <span class="text-slate-200">40+ Projects</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-term-border/40">
+            <span class="text-term-muted">STACK FOCUS:</span>
+            <span class="text-term-green">Fullstack / Web3</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-term-border/40">
+            <span class="text-term-muted">TERMINAL:</span>
+            <span class="text-slate-200">Zsh + Neovim</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SKILLS SECTION
+         ======================================================== -->
+    <section id="skills" class="mb-24 scroll-mt-24">
+      <div class="flex items-center space-x-2 text-xs text-term-cyan mb-3">
+        <span>02/</span>
+        <span class="uppercase tracking-widest">system --list-modules</span>
+      </div>
+      <h2 class="text-2xl font-bold tracking-tight text-white mb-6 flex items-center space-x-3">
+        <span>TECHNICAL ARSENAL</span>
+        <span class="h-px bg-term-border flex-1"></span>
+      </h2>
+
+      <!-- Skills Inventory Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Frontend -->
+        <div class="border border-term-border bg-term-card p-4 space-y-3">
+          <div class="text-xs text-term-green font-semibold uppercase tracking-wider border-b border-term-border pb-1">
+            // Frontend
+          </div>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>TypeScript / JavaScript</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>React / Next.js / Vue</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>Tailwind CSS / Canvas</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>State Machine & Redux</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Backend -->
+        <div class="border border-term-border bg-term-card p-4 space-y-3">
+          <div class="text-xs text-term-cyan font-semibold uppercase tracking-wider border-b border-term-border pb-1">
+            // Backend
+          </div>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>Node.js / Express / Fastify</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>Python / FastAPI</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>PostgreSQL / Redis / Mongo</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>RESTful & GraphQL APIs</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DevOps & Infra -->
+        <div class="border border-term-border bg-term-card p-4 space-y-3">
+          <div class="text-xs text-term-green font-semibold uppercase tracking-wider border-b border-term-border pb-1">
+            // DevOps & Cloud
+          </div>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>Docker & Containers</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>GitHub Actions (CI/CD)</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>AWS (S3, Lambda, EC2)</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-green">▸</span> <span>Nginx & Cloudflare</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tooling -->
+        <div class="border border-term-border bg-term-card p-4 space-y-3">
+          <div class="text-xs text-term-cyan font-semibold uppercase tracking-wider border-b border-term-border pb-1">
+            // Tooling & Env
+          </div>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>Git / Terminal Workflow</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>Jest / Vitest / Cypress</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>Linux / Bash Scripting</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="text-term-cyan">▸</span> <span>Figma / Pixel Asset Prep</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         PROJECTS SECTION
+         ======================================================== -->
+    <section id="projects" class="mb-24 scroll-mt-24">
+      <div class="flex items-center space-x-2 text-xs text-term-green mb-3">
+        <span>03/</span>
+        <span class="uppercase tracking-widest">ls -la ./deployments</span>
+      </div>
+      <h2 class="text-2xl font-bold tracking-tight text-white mb-6 flex items-center space-x-3">
+        <span>FEATURED REPOSITORIES</span>
+        <span class="h-px bg-term-border flex-1"></span>
+      </h2>
+
+      <!-- Project Cards List -->
+      <div class="space-y-6">
+
+        <!-- Project 1 -->
+        <div class="pixel-box bg-term-card p-6 border border-term-border transition-all">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-term-border pb-3 mb-4">
+            <div>
+              <div class="text-[10px] text-term-muted uppercase tracking-widest">DEPLOYMENT #001</div>
+              <h3 class="text-lg font-bold text-white group-hover:text-term-green">
+                AetherShell // Terminal OS
+              </h3>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-term-green underline">
+                [ Source Code ]
+              </a>
+              <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="text-term-cyan hover:underline">
+                [ Live Demo ↗ ]
+              </a>
+            </div>
+          </div>
+          <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+            In-browser UNIX-like operating system environment built with vanilla JS and canvas. Features virtual file system, customizable shell aliases, and vintage retro CRT shader themes.
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-term-green">TypeScript</span>
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-term-cyan">Web Audio API</span>
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-slate-300">Tailwind</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="pixel-box bg-term-card p-6 border border-term-border transition-all">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-term-border pb-3 mb-4">
+            <div>
+              <div class="text-[10px] text-term-muted uppercase tracking-widest">DEPLOYMENT #002</div>
+              <h3 class="text-lg font-bold text-white">
+                PulseRoute // Real-time API Gateway
+              </h3>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-term-green underline">
+                [ Source Code ]
+              </a>
+              <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="text-term-cyan hover:underline">
+                [ Live Demo ↗ ]
+              </a>
+            </div>
+          </div>
+          <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+            Lightweight, low-latency microservice gateway capable of processing 40,000 req/sec. Provides granular token bucket rate limiting, Redis cache layers, and Prometheus metrics.
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-term-green">Node.js</span>
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-term-cyan">Redis</span>
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-slate-300">Docker</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="pixel-box bg-term-card p-6 border border-term-border transition-all">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-term-border pb-3 mb-4">
+            <div>
+              <div class="text-[10px] text-term-muted uppercase tracking-widest">DEPLOYMENT #003</div>
+              <h3 class="text-lg font-bold text-white">
+                PixelCraft // Procedural Sprite Generator
+              </h3>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-term-green underline">
+                [ Source Code ]
+              </a>
+              <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="text-term-cyan hover:underline">
+                [ Live Demo ↗ ]
+              </a>
+            </div>
+          </div>
+          <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+            Algorithmic 8-bit sprite generator that builds deterministic pixel art characters, ships, and items for indie game developers with instant SVG and PNG export pipelines.
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-term-green">React</span>
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-term-cyan">HTML5 Canvas</span>
+            <span class="px-2 py-0.5 bg-term-black border border-term-border text-slate-300">WebAssembly</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         CONTACT SECTION (Interactive Terminal Form)
+         ======================================================== -->
+    <section id="contact" class="mb-12 scroll-mt-24">
+      <div class="flex items-center space-x-2 text-xs text-term-cyan mb-3">
+        <span>04/</span>
+        <span class="uppercase tracking-widest">netcat --connect</span>
+      </div>
+      <h2 class="text-2xl font-bold tracking-tight text-white mb-6 flex items-center space-x-3">
+        <span>ESTABLISH UPLINK</span>
+        <span class="h-px bg-term-border flex-1"></span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Contact Meta & Direct Socials -->
+        <div class="border border-term-border bg-term-card p-6 space-y-4">
+          <div class="text-xs text-term-green uppercase tracking-wider font-semibold border-b border-term-border pb-2">
+            // DIRECT CHANNELS
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Feel free to send a ping regarding full-time opportunities, freelance contracts, or technical collaborations.
+          </p>
+
+          <div class="space-y-2 pt-2 text-xs font-mono">
+            <div>
+              <span class="text-term-muted block text-[10px]">EMAIL ADDRESS:</span>
+              <button id="copy-email-btn" class="text-term-green hover:underline cursor-pointer flex items-center space-x-1" title="Click to copy email">
+                <span id="contact-email-text">alex@rivers.dev</span>
+                <span class="text-slate-500 text-[10px] ml-1">[copy]</span>
+              </button>
+            </div>
+            
+            <div class="pt-2">
+              <span class="text-term-muted block text-[10px]">SOCIAL PROFILES:</span>
+              <div class="flex flex-col space-y-1.5 pt-1">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-term-cyan transition-colors">
+                  &gt; GitHub: @alexrivers
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-term-cyan transition-colors">
+                  &gt; LinkedIn: /in/alexrivers
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="hover:text-term-cyan transition-colors">
+                  &gt; X/Twitter: @rivers_dev
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terminal-style Form -->
+        <div class="md:col-span-2 border border-term-border bg-term-card p-6">
+          <div class="text-xs text-term-cyan font-mono mb-4 flex items-center justify-between border-b border-term-border pb-2">
+            <span>&gt; msg_transmitter.sh</span>
+            <span class="text-term-muted text-[10px]">ENCRYPTION: NONE</span>
+          </div>
+
+          <form id="contact-form" class="space-y-4">
+            <div>
+              <label class="block text-xs text-slate-300 font-mono mb-1" for="name">
+                <span class="text-term-green">&gt;</span> SENDER_IDENTITY:
+              </label>
+              <input 
+                type="text" 
+                id="name" 
+                required 
+                placeholder="Ada Lovelace"
+                class="w-full bg-term-black border border-term-border focus:border-term-green focus:outline-none p-2.5 text-xs text-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-300 font-mono mb-1" for="email">
+                <span class="text-term-green">&gt;</span> RETURN_SIGNAL (EMAIL):
+              </label>
+              <input 
+                type="email" 
+                id="email" 
+                required 
+                placeholder="ada@domain.com"
+                class="w-full bg-term-black border border-term-border focus:border-term-green focus:outline-none p-2.5 text-xs text-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-300 font-mono mb-1" for="message">
+                <span class="text-term-green">&gt;</span> PAYLOAD_BODY:
+              </label>
+              <textarea 
+                id="message" 
+                rows="4" 
+                required 
+                placeholder="Enter transmission..."
+                class="w-full bg-term-black border border-term-border focus:border-term-green focus:outline-none p-2.5 text-xs text-white transition-colors resize-none"
+              ></textarea>
+            </div>
+
+            <div class="pt-2 flex items-center justify-between">
+              <button 
+                type="submit" 
+                id="submit-btn"
+                class="pixel-btn px-6 py-2.5 text-xs uppercase font-bold"
+              >
+                TRANSMIT SIGNAL
+              </button>
+              <span id="form-feedback" class="text-xs text-term-muted font-mono"></span>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================
+       FOOTER
+       ======================================================== -->
+  <footer class="border-t border-term-border bg-term-black py-8 text-center text-xs text-term-muted">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+      <div>
+        Hosted on <span class="text-slate-300">GitHub Pages</span> // Custom DNS via <span class="text-slate-300">Namecheap</span>
+      </div>
+      <div>
+        © <span id="current-year"></span> Alex Rivers. All terminals cleared.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================
+       APPLICATION LOGIC & USER CONFIGURATION
+       ======================================================== -->
+  <script>
+    /**
+     * ========================================================
+     * USER CONFIGURATION SECTION
+     * Edit these variables freely to customize your portfolio!
+     * ========================================================
+     */
+    const CONFIG = {
+      developerName: "ALEX RIVERS",
+      contactEmail: "alex@rivers.dev",
+      npxCommand: "npx alex-rivers",
+      roles: [
+        "Full-Stack Software Engineer",
+        "Systems & Microservices Tinkerer",
+        "Pixel Art & Game Design Enthusiast",
+        "Open-Source Contributor"
+      ],
+      typingSpeed: 65,      // Milliseconds per character
+      pauseBetweenRoles: 1800 // Milliseconds to display full string
+    };
+
+    /**
+     * INITIALIZATION & DOM WIRING
+     */
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Set dynamic texts from config
+      document.getElementById("hero-name").textContent = CONFIG.developerName;
+      document.getElementById("contact-email-text").textContent = CONFIG.contactEmail;
+      document.getElementById("current-year").textContent = new Date().getFullYear();
+
+      // 2. Start Typewriter effect
+      startTypewriter(CONFIG.roles, CONFIG.typingSpeed, CONFIG.pauseBetweenRoles);
+
+      // 3. Mobile Hamburger Menu Toggle
+      const mobileBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+
+        // Auto close drawer when anchor link clicked
+        mobileMenu.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+          });
+        });
+      }
+
+      // 4. CRT Scanline Toggle Button
+      const crtBtn = document.getElementById("crt-toggle-btn");
+      const crtStatus = document.getElementById("crt-status");
+      const scanlines = document.getElementById("scanline-overlay");
+      let crtActive = true;
+
+      crtBtn.addEventListener("click", () => {
+        crtActive = !crtActive;
+        if (crtActive) {
+          scanlines.style.opacity = "0.12";
+          crtStatus.textContent = "ON";
+          crtStatus.className = "text-term-green";
+        } else {
+          scanlines.style.opacity = "0";
+          crtStatus.textContent = "OFF";
+          crtStatus.className = "text-term-muted";
+        }
+      });
+
+      // 5. Copy to Clipboard Handlers
+      const copyNpxBtn = document.getElementById("copy-npx-btn");
+      if (copyNpxBtn) {
+        copyNpxBtn.addEventListener("click", () => {
+          copyText(CONFIG.npxCommand, `Copied "${CONFIG.npxCommand}"!`);
+        });
+      }
+
+      const copyEmailBtn = document.getElementById("copy-email-btn");
+      if (copyEmailBtn) {
+        copyEmailBtn.addEventListener("click", () => {
+          copyText(CONFIG.contactEmail, `Copied ${CONFIG.contactEmail}!`);
+        });
+      }
+
+      // 6. Interactive Contact Form Transmission
+      const contactForm = document.getElementById("contact-form");
+      const formFeedback = document.getElementById("form-feedback");
+      const submitBtn = document.getElementById("submit-btn");
+
+      contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const senderName = document.getElementById("name").value.trim();
+        const senderEmail = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        if (!senderName || !senderEmail || !message) {
+          formFeedback.textContent = "ERR: Empty fields detected.";
+          formFeedback.className = "text-xs text-red-400 font-mono";
+          return;
+        }
+
+        // Simulate transmission uplink
+        submitBtn.disabled = true;
+        submitBtn.textContent = "TRANSMITTING...";
+        formFeedback.textContent = "Negotiating handshake...";
+        formFeedback.className = "text-xs text-term-cyan font-mono";
+
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "TRANSMIT SIGNAL";
+          formFeedback.textContent = "ACK 200: Transmission received!";
+          formFeedback.className = "text-xs text-term-green font-mono";
+          contactForm.reset();
+
+          showToast("Signal delivered to inbox.");
+        }, 1200);
+      });
+    });
+
+    /**
+     * Typewriter loop implementation
+     */
+    function startTypewriter(phrases, speed, pause) {
+      const container = document.getElementById("typewriter-text");
+      if (!container || phrases.length === 0) return;
+
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function tick() {
+        const currentPhrase = phrases[phraseIndex];
+
+        if (isDeleting) {
+          container.textContent = currentPhrase.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          container.textContent = currentPhrase.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        let delta = speed;
+
+        if (isDeleting) {
+          delta /= 1.7; // Deleting is faster
+        }
+
+        if (!isDeleting && charIndex === currentPhrase.length) {
+          delta = pause; // Pause at full phrase
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          delta = 350; // Pause before new word
+        }
+
+        setTimeout(tick, delta);
+      }
+
+      tick();
+    }
+
+    /**
+     * Safe Clipboard Copy using fallback for iframe & local security restrictions
+     */
+    function copyText(text, successMessage) {
+      try {
+        const tempTextArea = document.createElement("textarea");
+        tempTextArea.value = text;
+        tempTextArea.style.position = "fixed";
+        tempTextArea.style.left = "-9999px";
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+        showToast(successMessage);
+      } catch (err) {
+        console.warn("Clipboard copy fallback triggered:", err);
+        showToast("Error copying to clipboard");
+      }
+    }
+
+    /**
+     * Toast notification trigger
+     */
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      const toastMsg = document.getElementById("toast-msg");
+      if (!toast || !toastMsg) return;
+
+      toastMsg.textContent = message;
+      toast.classList.remove("opacity-0", "translate-y-20");
+      toast.classList.add("opacity-100", "translate-y-0");
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-20");
+        toast.classList.remove("opacity-100", "translate-y-0");
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

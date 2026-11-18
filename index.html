@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kyrillos Wahid // Systems & Reliability</title>
+  <title>Kyrillos Wahid</title>
   
   <!-- Favicon using real image asset -->
   <link rel="icon" type="image/png" href="KW_white.png">
@@ -137,18 +137,18 @@
 
   <!-- Top Sticky Navigation Bar -->
   <header class="w-full bg-mono-950/80 backdrop-blur-md border-b border-mono-800/80 sticky top-0 z-40 transition-all">
-    <div class="max-w-6xl mx-auto px-6 h-28 sm:h-32 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-6 h-32 sm:h-36 flex items-center justify-between">
       <!-- Enlarged Monogram Logo -->
       <a href="#hero" class="flex items-center group py-2" onclick="triggerSpaceClick()" aria-label="Kyrillos Wahid Home">
         <img 
           src="KW_white.png" 
           alt="KW Logo" 
-          class="h-16 sm:h-20 md:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+          class="h-20 sm:h-24 md:h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
           onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}"
         >
       </a>
 
-      <!-- Navigation Links with Scroll Offsets -->
+      <!-- Desktop Navigation Links with Scroll Offsets -->
       <nav class="hidden md:flex items-center space-x-8 text-xs font-mono tracking-wider text-mono-400">
         <a href="#about" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">01. PROFILE</a>
         <a href="#projects" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">02. ARCHITECTURES</a>
@@ -156,7 +156,7 @@
         <a href="#ecosystem" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">04. ECOSYSTEM</a>
       </nav>
 
-      <!-- Control Group: Audio Switch + Status Pill -->
+      <!-- Control Group: Audio Switch + Status Pill + Mobile Hamburger -->
       <div class="flex items-center space-x-3">
         <button 
           id="sound-toggle-btn"
@@ -172,6 +172,45 @@
           <span class="w-1.5 h-1.5 rounded-full bg-mono-100 animate-pulse mr-2"></span>
           SYS_ONLINE
         </span>
+
+        <!-- Mobile Sandwich / Hamburger Button -->
+        <button 
+          id="mobile-menu-btn"
+          onclick="toggleMobileMenu()"
+          class="md:hidden flex items-center justify-center w-10 h-10 rounded border border-mono-800 bg-mono-900/90 text-mono-300 hover:text-mono-50 hover:border-mono-600 transition-all cursor-pointer"
+          aria-label="Toggle Navigation Menu"
+        >
+          <i id="mobile-menu-icon" class="fa-solid fa-bars text-sm"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Slide-Down Monochromatic Drawer Menu -->
+    <div 
+      id="mobile-drawer" 
+      class="hidden md:hidden border-t border-mono-800/80 bg-mono-950/95 backdrop-blur-xl px-6 py-6 transition-all duration-300"
+    >
+      <nav class="flex flex-col space-y-4 text-xs font-mono tracking-widest text-mono-300">
+        <a href="#about" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
+          <span>01. PROFILE</span>
+          <span class="text-mono-500">&rarr;</span>
+        </a>
+        <a href="#projects" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
+          <span>02. ARCHITECTURES</span>
+          <span class="text-mono-500">&rarr;</span>
+        </a>
+        <a href="#skills" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
+          <span>03. CAPABILITIES</span>
+          <span class="text-mono-500">&rarr;</span>
+        </a>
+        <a href="#ecosystem" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
+          <span>04. ECOSYSTEM</span>
+          <span class="text-mono-500">&rarr;</span>
+        </a>
+      </nav>
+      <div class="mt-4 pt-4 border-t border-mono-850 flex items-center justify-between text-[11px] font-mono text-mono-500">
+        <span>STATUS: SYS_ONLINE</span>
+        <span class="text-mono-400">KYRILLOS WAHID</span>
       </div>
     </div>
   </header>
@@ -180,7 +219,7 @@
   <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-12 md:py-20 flex flex-col gap-24 relative z-10">
 
     <!-- Hero Section -->
-    <section id="hero" class="flex flex-col items-start gap-8 pt-4 md:pt-8 scroll-mt-36">
+    <section id="hero" class="flex flex-col items-start gap-8 pt-4 md:pt-8 scroll-mt-40">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[00]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -220,7 +259,7 @@
     </section>
 
     <!-- Profile & Background -->
-    <section id="about" class="space-y-6 scroll-mt-36">
+    <section id="about" class="space-y-6 scroll-mt-40">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[01]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -264,7 +303,7 @@
     </section>
 
     <!-- Production Architectures / Projects -->
-    <section id="projects" class="space-y-6 scroll-mt-36">
+    <section id="projects" class="space-y-6 scroll-mt-40">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[02]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -343,7 +382,7 @@
     </section>
 
     <!-- Capabilities Matrix -->
-    <section id="skills" class="space-y-6 scroll-mt-36">
+    <section id="skills" class="space-y-6 scroll-mt-40">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[03]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -384,7 +423,7 @@
     </section>
 
     <!-- Sub-brands & Ecosystem Ticker (Zero-Lag Hardware Accelerated) -->
-    <section id="ecosystem" class="space-y-6 scroll-mt-36">
+    <section id="ecosystem" class="space-y-6 scroll-mt-40">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[04]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -515,6 +554,35 @@
 
   <!-- Interactive Smoke & Audio Synthesizer Engine -->
   <script>
+    // -------------------------------------------------------------
+    // Mobile Drawer Navigation Logic
+    // -------------------------------------------------------------
+    let mobileMenuOpen = false;
+
+    function toggleMobileMenu() {
+      triggerSpaceClick(960, 0.04);
+      const drawer = document.getElementById('mobile-drawer');
+      const icon = document.getElementById('mobile-menu-icon');
+      mobileMenuOpen = !mobileMenuOpen;
+
+      if (mobileMenuOpen) {
+        drawer.classList.remove('hidden');
+        icon.className = 'fa-solid fa-xmark text-sm text-mono-100';
+      } else {
+        drawer.classList.add('hidden');
+        icon.className = 'fa-solid fa-bars text-sm text-mono-300';
+      }
+    }
+
+    function closeMobileMenuAndNavigate() {
+      triggerSpaceClick(1100, 0.035);
+      const drawer = document.getElementById('mobile-drawer');
+      const icon = document.getElementById('mobile-menu-icon');
+      mobileMenuOpen = false;
+      drawer.classList.add('hidden');
+      icon.className = 'fa-solid fa-bars text-sm text-mono-300';
+    }
+
     // -------------------------------------------------------------
     // 1. Futuristic Space Click Audio Synthesizer (Web Audio API)
     // -------------------------------------------------------------

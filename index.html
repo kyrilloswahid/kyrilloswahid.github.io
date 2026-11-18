@@ -48,6 +48,11 @@
   </script>
 
   <style>
+    /* Smooth Anchor Scrolling & Offset */
+    html {
+      scroll-behavior: smooth;
+    }
+
     /* Custom Sleek Scrollbar */
     ::-webkit-scrollbar {
       width: 4px;
@@ -131,11 +136,11 @@
   </div>
 
   <!-- Top Sticky Navigation Bar -->
-  <header class="w-full bg-mono-950/70 backdrop-blur-md border-b border-mono-800/80 sticky top-0 z-40 transition-all">
-    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-      <!-- Clean, Prominent KW Monogram -->
-      <a href="#hero" class="flex items-center group" aria-label="Kyrillos Wahid Home">
-        <img src="KW_white.png" alt="KW Logo" class="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='KW.png';">
+  <header class="w-full bg-mono-950/80 backdrop-blur-md border-b border-mono-800/80 sticky top-0 z-40 transition-all">
+    <div class="max-w-6xl mx-auto px-6 h-24 flex items-center justify-between">
+      <!-- Clean, Prominently Enlarged KW Monogram -->
+      <a href="#hero" class="flex items-center group py-2" aria-label="Kyrillos Wahid Home">
+        <img src="KW_white.png" alt="KW Logo" class="h-12 sm:h-14 md:h-16 w-auto max-w-[200px] object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='KW.png';">
       </a>
 
       <!-- Navigation Links -->
@@ -160,7 +165,7 @@
   <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-12 md:py-20 flex flex-col gap-24 relative z-10">
 
     <!-- Hero Section (Clean Minimal Typography, No Side Logo) -->
-    <section id="hero" class="flex flex-col items-start gap-8 pt-6 md:pt-10">
+    <section id="hero" class="scroll-mt-32 flex flex-col items-start gap-8 pt-6 md:pt-10">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[00]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -200,7 +205,7 @@
     </section>
 
     <!-- Profile & Background -->
-    <section id="about" class="space-y-6">
+    <section id="about" class="scroll-mt-32 space-y-6">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[01]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -244,7 +249,7 @@
     </section>
 
     <!-- Production Architectures / Projects -->
-    <section id="projects" class="space-y-6">
+    <section id="projects" class="scroll-mt-32 space-y-6">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[02]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -323,7 +328,7 @@
     </section>
 
     <!-- Capabilities Matrix -->
-    <section id="skills" class="space-y-6">
+    <section id="skills" class="scroll-mt-32 space-y-6">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[03]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -364,7 +369,7 @@
     </section>
 
     <!-- Sub-brands & Ecosystem Ticker -->
-    <section id="ecosystem" class="space-y-6">
+    <section id="ecosystem" class="scroll-mt-32 space-y-6">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[04]</span>
         <span class="h-px w-8 bg-mono-700"></span>

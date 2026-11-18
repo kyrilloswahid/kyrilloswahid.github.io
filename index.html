@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-[#030303] text-[#e0e0e0]">
+<html lang="en" class="h-full bg-[#030303] text-[#e0e0e0] scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kyrillos Wahid // Systems & Reliability</title>
   
   <!-- Favicon using real image asset -->
-  <link rel="icon" type="image/png" href="KW_white_2.png">
+  <link rel="icon" type="image/png" href="KW_white.png">
   
   <!-- Fonts: Space Grotesk & Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
   <!-- FontAwesome for technical glyphs -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -48,11 +48,6 @@
   </script>
 
   <style>
-    /* Smooth Anchor Scrolling & Offset */
-    html {
-      scroll-behavior: smooth;
-    }
-
     /* Custom Sleek Scrollbar */
     ::-webkit-scrollbar {
       width: 4px;
@@ -92,7 +87,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
     }
     .mono-card:hover {
       border-color: rgba(255, 255, 255, 0.28);
@@ -100,17 +95,22 @@
       transform: translateY(-2px);
     }
 
-    /* Infinite Marquee Loop */
-    @keyframes marqueeScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    /* Ultra-Smooth Hardware-Accelerated Marquee */
+    @keyframes smoothTicker {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
     }
-    .marquee-track {
+    .ticker-wrapper {
       display: flex;
       width: max-content;
-      animation: marqueeScroll 26s linear infinite;
+      will-change: transform;
+      animation: smoothTicker 28s linear infinite;
     }
-    .marquee-track:hover {
+    .ticker-wrapper:hover {
       animation-play-state: paused;
     }
   </style>
@@ -120,10 +120,10 @@
   <!-- Grain Overlay -->
   <div class="film-grain"></div>
 
-  <!-- Smoke Canvas Simulation (Slightly boosted opacity for ethereal depth) -->
+  <!-- Smoke Simulation Canvas -->
   <canvas id="smoke-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-70"></canvas>
 
-  <!-- Fine Engineering Grid Backdrop -->
+  <!-- Grid Backdrop -->
   <div class="fixed inset-0 bg-grid pointer-events-none z-0"></div>
 
   <!-- Radial Vignette -->
@@ -137,23 +137,38 @@
 
   <!-- Top Sticky Navigation Bar -->
   <header class="w-full bg-mono-950/80 backdrop-blur-md border-b border-mono-800/80 sticky top-0 z-40 transition-all">
-    <div class="max-w-6xl mx-auto px-6 h-24 flex items-center justify-between">
-      <!-- Clean, Prominently Enlarged KW Monogram -->
-      <a href="#hero" class="flex items-center group py-2" aria-label="Kyrillos Wahid Home">
-        <img src="KW_white.png" alt="KW Logo" class="h-12 sm:h-14 md:h-16 w-auto max-w-[200px] object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='KW.png';">
+    <div class="max-w-6xl mx-auto px-6 h-28 sm:h-32 flex items-center justify-between">
+      <!-- Enlarged Monogram Logo -->
+      <a href="#hero" class="flex items-center group py-2" onclick="triggerSpaceClick()" aria-label="Kyrillos Wahid Home">
+        <img 
+          src="KW_white.png" 
+          alt="KW Logo" 
+          class="h-16 sm:h-20 md:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+          onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}"
+        >
       </a>
 
-      <!-- Navigation Links -->
+      <!-- Navigation Links with Scroll Offsets -->
       <nav class="hidden md:flex items-center space-x-8 text-xs font-mono tracking-wider text-mono-400">
-        <a href="#about" class="hover:text-mono-50 transition-colors">01. PROFILE</a>
-        <a href="#projects" class="hover:text-mono-50 transition-colors">02. ARCHITECTURES</a>
-        <a href="#skills" class="hover:text-mono-50 transition-colors">03. CAPABILITIES</a>
-        <a href="#ecosystem" class="hover:text-mono-50 transition-colors">04. ECOSYSTEM</a>
+        <a href="#about" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">01. PROFILE</a>
+        <a href="#projects" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">02. ARCHITECTURES</a>
+        <a href="#skills" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">03. CAPABILITIES</a>
+        <a href="#ecosystem" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">04. ECOSYSTEM</a>
       </nav>
 
-      <!-- Node Status Indicator -->
-      <div class="flex items-center">
-        <span class="inline-flex items-center text-[10px] font-mono text-mono-400 border border-mono-800 bg-mono-900 px-3 py-1.5 rounded">
+      <!-- Control Group: Audio Switch + Status Pill -->
+      <div class="flex items-center space-x-3">
+        <button 
+          id="sound-toggle-btn"
+          onclick="toggleAudio()" 
+          class="inline-flex items-center space-x-1.5 text-[10px] font-mono text-mono-400 border border-mono-800 hover:border-mono-600 bg-mono-900/90 hover:text-mono-100 px-2.5 py-1.5 rounded transition-all cursor-pointer"
+          title="Toggle Space Click Synthesizer"
+        >
+          <i id="sound-icon" class="fa-solid fa-volume-xmark text-mono-500"></i>
+          <span id="sound-label" class="tracking-wider">FX: OFF</span>
+        </button>
+
+        <span class="hidden sm:inline-flex items-center text-[10px] font-mono text-mono-400 border border-mono-800 bg-mono-900 px-3 py-1.5 rounded">
           <span class="w-1.5 h-1.5 rounded-full bg-mono-100 animate-pulse mr-2"></span>
           SYS_ONLINE
         </span>
@@ -164,20 +179,20 @@
   <!-- Main View -->
   <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-12 md:py-20 flex flex-col gap-24 relative z-10">
 
-    <!-- Hero Section (Clean Minimal Typography, No Side Logo) -->
-    <section id="hero" class="scroll-mt-32 flex flex-col items-start gap-8 pt-6 md:pt-10">
+    <!-- Hero Section -->
+    <section id="hero" class="flex flex-col items-start gap-8 pt-4 md:pt-8 scroll-mt-36">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[00]</span>
         <span class="h-px w-8 bg-mono-700"></span>
         <span class="text-mono-400">Site Reliability & Cloud Infrastructure</span>
       </div>
 
-      <div class="w-full border-b border-mono-800/80 pb-12">
+      <div class="flex flex-col items-start w-full border-b border-mono-800/80 pb-12">
         <div class="space-y-4 max-w-3xl">
-          <h1 class="text-4xl sm:text-6xl md:text-7xl font-light tracking-tight text-mono-50 leading-tight">
+          <h1 class="text-5xl sm:text-7xl font-light tracking-tight text-mono-50 leading-tight">
             KYRILLOS <span class="font-bold text-mono-500">WAHID</span>
           </h1>
-          <p class="text-mono-300 text-sm sm:text-base md:text-lg leading-relaxed font-normal">
+          <p class="text-mono-300 text-base sm:text-lg leading-relaxed font-normal">
             Computer & Systems Engineer specializing in declarative cloud platforms, GitOps automation, and high-reliability systems delivery across AWS, GCP, and Azure. Former SRE Intern at <span class="text-mono-100 font-medium">_VOIS</span>.
           </p>
         </div>
@@ -190,8 +205,8 @@
           <div class="text-sm font-bold text-mono-100 mt-1">GCP &bull; AWS &bull; AZURE</div>
         </div>
         <div class="mono-card p-4 rounded-lg">
-          <div class="text-[10px] text-mono-500 uppercase tracking-widest">Graduation Honors</div>
-          <div class="text-sm font-bold text-mono-100 mt-1">198 / 200 (Project)</div>
+          <div class="text-[10px] text-mono-500 uppercase tracking-widest">Graduation Project</div>
+          <div class="text-sm font-bold text-mono-100 mt-1">198 / 200 (Excellent)</div>
         </div>
         <div class="mono-card p-4 rounded-lg">
           <div class="text-[10px] text-mono-500 uppercase tracking-widest">International Rank</div>
@@ -205,7 +220,7 @@
     </section>
 
     <!-- Profile & Background -->
-    <section id="about" class="scroll-mt-32 space-y-6">
+    <section id="about" class="space-y-6 scroll-mt-36">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[01]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -216,7 +231,7 @@
         <div class="md:col-span-2 mono-card p-6 rounded-xl space-y-4">
           <h2 class="text-lg font-medium text-mono-100">Declarative systems, zero drift, and resilient lifecycles.</h2>
           <p class="text-xs sm:text-sm text-mono-300 leading-relaxed">
-            Graduated from Helwan University with a major in Computer & Systems Engineering. My engineering background centers on building immutable delivery pipelines, orchestrating rootless Kubernetes environments with Helm, and enforcing automated security baselines via static analysis and policy gates.
+            Graduated from Helwan University with a degree in Computer & Systems Engineering. My engineering background centers on building immutable delivery pipelines, orchestrating rootless Kubernetes environments with Helm, and enforcing automated security baselines via static analysis and policy gates.
           </p>
           <p class="text-xs sm:text-sm text-mono-400 leading-relaxed font-mono">
             Key focus areas: Kubernetes Orchestration &bull; Terraform IaC &bull; CI/CD Pipelines &bull; Linux Administration &bull; Microservice Security Scanning.
@@ -249,7 +264,7 @@
     </section>
 
     <!-- Production Architectures / Projects -->
-    <section id="projects" class="scroll-mt-32 space-y-6">
+    <section id="projects" class="space-y-6 scroll-mt-36">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[02]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -258,7 +273,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Project 1 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">ESHOP CI/CD MICROSERVICE</span>
@@ -275,7 +290,7 @@
         </div>
 
         <!-- Project 2 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">3-TIER GITOPS PIPELINE</span>
@@ -292,7 +307,7 @@
         </div>
 
         <!-- Project 3 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">TRUELENS AI MULTIMODAL</span>
@@ -309,7 +324,7 @@
         </div>
 
         <!-- Project 4 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">ENTERPRISE REPO GOVERNANCE</span>
@@ -328,7 +343,7 @@
     </section>
 
     <!-- Capabilities Matrix -->
-    <section id="skills" class="scroll-mt-32 space-y-6">
+    <section id="skills" class="space-y-6 scroll-mt-36">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[03]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -368,8 +383,8 @@
       </div>
     </section>
 
-    <!-- Sub-brands & Ecosystem Ticker -->
-    <section id="ecosystem" class="scroll-mt-32 space-y-6">
+    <!-- Sub-brands & Ecosystem Ticker (Zero-Lag Hardware Accelerated) -->
+    <section id="ecosystem" class="space-y-6 scroll-mt-36">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[04]</span>
         <span class="h-px w-8 bg-mono-700"></span>
@@ -377,103 +392,118 @@
       </div>
 
       <div class="relative w-full overflow-hidden mono-card py-5 rounded-xl">
-        <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-mono-950 to-transparent z-10 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-mono-950 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-mono-950 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-mono-950 to-transparent z-10 pointer-events-none"></div>
 
-        <div class="marquee-track flex items-center gap-6 pl-4 font-mono">
-          <!-- Item 1 -->
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <img src="KW_white.png" alt="KW Logo" class="h-4 sm:h-5 w-auto object-contain opacity-80" onerror="this.onerror=null; this.src='KW.png';">
-            <div>
-              <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
-              <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
+        <div class="ticker-wrapper flex items-center font-mono">
+          
+          <!-- Ticker Block 1 -->
+          <div class="flex items-center space-x-6 pr-6 shrink-0">
+            <!-- 1. Kyrillos Wahid -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <img src="KW_white.png" alt="KW Logo" class="h-6 w-auto object-contain opacity-90" onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}">
+              <div>
+                <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
+                <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
+              </div>
             </div>
-          </div>
-          <!-- Item 2 -->
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <div class="w-5 h-5 rounded border border-mono-700 flex items-center justify-center text-[10px] text-mono-300">
-              <i class="fa-solid fa-shield-halved"></i>
+            <!-- 2. Vision of the Wolf -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-mono-100">VISION OF THE WOLF</div>
+                <div class="text-[9px] text-mono-500">FLAGSHIP_ECOSYSTEM</div>
+              </div>
             </div>
-            <div>
-              <div class="text-xs font-bold text-mono-100">VISION OF THE WOLF</div>
-              <div class="text-[9px] text-mono-500">FLAGSHIP_ECOSYSTEM</div>
+            <!-- 3. Kpxls -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[10px] font-bold text-mono-300">
+                PX
+              </div>
+              <div>
+                <div class="text-xs font-bold text-mono-100">KPXLS</div>
+                <div class="text-[9px] text-mono-500">VISUAL_LABS</div>
+              </div>
             </div>
-          </div>
-          <!-- Item 3 -->
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <div class="w-5 h-5 rounded border border-mono-700 flex items-center justify-center text-[9px] font-bold text-mono-300">
-              PX
-            </div>
-            <div>
-              <div class="text-xs font-bold text-mono-100">KPXLS</div>
-              <div class="text-[9px] text-mono-500">VISUAL_LABS</div>
-            </div>
-          </div>
-          <!-- Item 4 -->
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <div class="w-5 h-5 rounded border border-mono-700 flex items-center justify-center text-[10px] text-mono-300">
-              <i class="fa-solid fa-bolt"></i>
-            </div>
-            <div>
-              <div class="text-xs font-bold text-mono-100">AKONYTE</div>
-              <div class="text-[9px] text-mono-500">CYBER_DEFENSE</div>
+            <!-- 4. AKONYTE -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-mono-100">AKONYTE</div>
+                <div class="text-[9px] text-mono-500">CYBER_DEFENSE</div>
+              </div>
             </div>
           </div>
 
-          <!-- Clones for Seamless Infinite Scroll -->
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <img src="KW_white.png" alt="KW Logo" class="h-4 sm:h-5 w-auto object-contain opacity-80" onerror="this.onerror=null; this.src='KW.png';">
-            <div>
-              <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
-              <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
+          <!-- Ticker Block 2 (Exact Duplicate for Continuous Loop) -->
+          <div class="flex items-center space-x-6 pr-6 shrink-0" aria-hidden="true">
+            <!-- 1. Kyrillos Wahid -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <img src="KW_white.png" alt="KW Logo" class="h-6 w-auto object-contain opacity-90" onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}">
+              <div>
+                <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
+                <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
+              </div>
+            </div>
+            <!-- 2. Vision of the Wolf -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-mono-100">VISION OF THE WOLF</div>
+                <div class="text-[9px] text-mono-500">FLAGSHIP_ECOSYSTEM</div>
+              </div>
+            </div>
+            <!-- 3. Kpxls -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[10px] font-bold text-mono-300">
+                PX
+              </div>
+              <div>
+                <div class="text-xs font-bold text-mono-100">KPXLS</div>
+                <div class="text-[9px] text-mono-500">VISUAL_LABS</div>
+              </div>
+            </div>
+            <!-- 4. AKONYTE -->
+            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
+              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-mono-100">AKONYTE</div>
+                <div class="text-[9px] text-mono-500">CYBER_DEFENSE</div>
+              </div>
             </div>
           </div>
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <div class="w-5 h-5 rounded border border-mono-700 flex items-center justify-center text-[10px] text-mono-300">
-              <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <div>
-              <div class="text-xs font-bold text-mono-100">VISION OF THE WOLF</div>
-              <div class="text-[9px] text-mono-500">FLAGSHIP_ECOSYSTEM</div>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <div class="w-5 h-5 rounded border border-mono-700 flex items-center justify-center text-[9px] font-bold text-mono-300">
-              PX
-            </div>
-            <div>
-              <div class="text-xs font-bold text-mono-100">KPXLS</div>
-              <div class="text-[9px] text-mono-500">VISUAL_LABS</div>
-            </div>
-          </div>
-          <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <div class="w-5 h-5 rounded border border-mono-700 flex items-center justify-center text-[10px] text-mono-300">
-              <i class="fa-solid fa-bolt"></i>
-            </div>
-            <div>
-              <div class="text-xs font-bold text-mono-100">AKONYTE</div>
-              <div class="text-[9px] text-mono-500">CYBER_DEFENSE</div>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Communication Strip -->
+    <!-- Communication Strip with GitHub, LinkedIn, X, Email -->
     <section class="border-t border-mono-800/80 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 font-mono text-xs text-mono-400">
       <div class="flex flex-wrap items-center gap-6">
-        <button onclick="copyToClipboard('kyrilloswahid@outlook.com')" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
-          <i class="fa-solid fa-envelope"></i>
-          <span>kyrilloswahid@outlook.com</span>
-        </button>
-        <a href="https://linkedin.com/in/kyrilloswahid" target="_blank" rel="noopener noreferrer" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
-          <i class="fa-brands fa-linkedin"></i>
-          <span>in/kyrilloswahid</span>
-        </a>
-        <a href="https://x.com/kyrilloswahid" target="_blank" rel="noopener noreferrer" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
-          <i class="fa-brands fa-x-twitter"></i>
+        <a href="https://github.com/kyrilloswahid" target="_blank" rel="noopener noreferrer" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
+          <i class="fa-brands fa-github text-sm"></i>
           <span>@kyrilloswahid</span>
         </a>
+        <a href="https://linkedin.com/in/kyrilloswahid" target="_blank" rel="noopener noreferrer" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
+          <i class="fa-brands fa-linkedin text-sm"></i>
+          <span>in/kyrilloswahid</span>
+        </a>
+        <a href="https://x.com/kyrilloswahid" target="_blank" rel="noopener noreferrer" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
+          <i class="fa-brands fa-x-twitter text-sm"></i>
+          <span>@kyrilloswahid</span>
+        </a>
+        <button onclick="copyToClipboard('kyrilloswahid@outlook.com')" class="hover:text-mono-50 transition-colors flex items-center space-x-2 cursor-pointer">
+          <i class="fa-solid fa-envelope text-sm"></i>
+          <span>kyrilloswahid@outlook.com</span>
+        </button>
       </div>
 
       <div class="text-mono-500 text-[11px]">
@@ -483,15 +513,103 @@
 
   </main>
 
-  <!-- Interactive Smoke Simulation Script -->
+  <!-- Interactive Smoke & Audio Synthesizer Engine -->
   <script>
-    (function initSmokeSimulation() {
+    // -------------------------------------------------------------
+    // 1. Futuristic Space Click Audio Synthesizer (Web Audio API)
+    // -------------------------------------------------------------
+    let soundEnabled = false;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function toggleAudio() {
+      const ctx = getAudioContext();
+      soundEnabled = !soundEnabled;
+      
+      const soundIcon = document.getElementById('sound-icon');
+      const soundLabel = document.getElementById('sound-label');
+
+      if (soundEnabled) {
+        soundIcon.className = 'fa-solid fa-volume-high text-mono-100';
+        soundLabel.innerText = 'FX: ON';
+        soundLabel.className = 'tracking-wider text-mono-100';
+        triggerSpaceClick(1200, 0.04);
+      } else {
+        soundIcon.className = 'fa-solid fa-volume-xmark text-mono-500';
+        soundLabel.innerText = 'FX: OFF';
+        soundLabel.className = 'tracking-wider text-mono-400';
+      }
+    }
+
+    function triggerSpaceClick(targetFreq = 840, duration = 0.035) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+
+        const now = ctx.currentTime;
+
+        // Sub/body carrier oscillator
+        const osc = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        // FM Harmonic high-pass click
+        const highOsc = ctx.createOscillator();
+        const highGain = ctx.createGain();
+
+        // Deep futuristic chirp
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(targetFreq, now);
+        osc.frequency.exponentialRampToValueAtTime(140, now + duration);
+
+        gainNode.gain.setValueAtTime(0.04, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        // Crisp metallic transient
+        highOsc.type = 'triangle';
+        highOsc.frequency.setValueAtTime(2400, now);
+        highOsc.frequency.exponentialRampToValueAtTime(320, now + duration * 0.6);
+
+        highGain.gain.setValueAtTime(0.02, now);
+        highGain.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.6);
+
+        // Routing
+        osc.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        highOsc.connect(highGain);
+        highGain.connect(ctx.destination);
+
+        osc.start(now);
+        highOsc.start(now);
+        osc.stop(now + duration);
+        highOsc.stop(now + duration * 0.6);
+      } catch (err) {
+        console.error('Audio engine error:', err);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 2. Responsive Smoke Simulation (Desktop Mouse + Mobile Touch)
+    // -------------------------------------------------------------
+    (function initResponsiveSmoke() {
       const canvas = document.getElementById('smoke-canvas');
       const ctx = canvas.getContext('2d');
       let width, height;
       let particles = [];
-      const MAX_AMBIENT = 40;
-      const MAX_TOTAL = 90;
+      const MAX_PARTICLES = 48;
 
       function resize() {
         width = canvas.width = window.innerWidth;
@@ -501,70 +619,47 @@
       resize();
 
       class SmokeParticle {
-        constructor(x, y, isHover = false, speedX = 0, speedY = 0) {
-          this.isHover = isHover;
-          this.reset(x, y, isHover, speedX, speedY);
+        constructor(x, y, vx, vy) {
+          this.reset(x, y, vx, vy);
         }
 
-        reset(x, y, isHover = false, speedX = 0, speedY = 0) {
-          this.isHover = isHover;
-          if (isHover) {
-            this.x = x + (Math.random() - 0.5) * 16;
-            this.y = y + (Math.random() - 0.5) * 16;
-            this.vx = (Math.random() - 0.5) * 1.2 + (speedX * 0.18);
-            this.vy = -(Math.random() * 1.4 + 0.6) + (speedY * 0.18);
-            this.radius = Math.random() * 45 + 35;
-            this.expansionRate = Math.random() * 0.6 + 0.45;
-            this.maxLife = Math.random() * 100 + 75;
-            this.alphaPeak = Math.random() * 0.12 + 0.16; // Noticeable, silky hover glow
-          } else {
-            this.x = x !== undefined ? x : Math.random() * width;
-            this.y = y !== undefined ? y : height + Math.random() * 80;
-            this.vx = (Math.random() - 0.5) * 0.65;
-            this.vy = -(Math.random() * 0.85 + 0.45); // Faster, more fluid upward draft
-            this.radius = Math.random() * 95 + 65;
-            this.expansionRate = 0.38;
-            this.maxLife = Math.random() * 260 + 160;
-            this.alphaPeak = Math.random() * 0.08 + 0.12;
-          }
+        reset(x, y, vx, vy) {
+          this.x = x !== undefined ? x : Math.random() * width;
+          this.y = y !== undefined ? y : height + Math.random() * 80;
+          this.vx = vx !== undefined ? vx : (Math.random() - 0.5) * 0.5;
+          this.vy = vy !== undefined ? vy : -(Math.random() * 0.75 + 0.35);
+          this.radius = Math.random() * 90 + 75;
+          this.maxLife = Math.random() * 240 + 170;
           this.life = 0;
+          this.alphaPeak = Math.random() * 0.16 + 0.08;
         }
 
         update() {
           this.x += this.vx;
           this.y += this.vy;
+          this.vx *= 0.99;
+          this.vy *= 0.992;
           this.life++;
-          this.radius += this.expansionRate;
-
-          // Gentle ambient drift drag
-          this.vx *= 0.985;
-          this.vy *= 0.99;
+          this.radius += 0.35;
 
           if (this.life >= this.maxLife || this.y < -this.radius) {
-            if (this.isHover) {
-              this.dead = true;
-            } else {
-              this.reset();
-            }
+            this.reset();
           }
         }
 
         draw() {
           const progress = this.life / this.maxLife;
           let currentAlpha = 0;
-          if (progress < 0.22) {
-            currentAlpha = (progress / 0.22) * this.alphaPeak;
+          if (progress < 0.25) {
+            currentAlpha = (progress / 0.25) * this.alphaPeak;
           } else {
-            currentAlpha = (1 - (progress - 0.22) / 0.78) * this.alphaPeak;
+            currentAlpha = (1 - (progress - 0.25) / 0.75) * this.alphaPeak;
           }
 
-          if (currentAlpha <= 0.001) return;
-
           const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-          // Pure white-to-neutral soft luminance gradient
-          grad.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha * 1.15})`);
-          grad.addColorStop(0.35, `rgba(215, 215, 220, ${currentAlpha * 0.65})`);
-          grad.addColorStop(0.7, `rgba(160, 160, 170, ${currentAlpha * 0.22})`);
+          grad.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha})`);
+          grad.addColorStop(0.35, `rgba(220, 220, 220, ${currentAlpha * 0.6})`);
+          grad.addColorStop(0.7, `rgba(160, 160, 160, ${currentAlpha * 0.2})`);
           grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
           ctx.fillStyle = grad;
@@ -574,51 +669,77 @@
         }
       }
 
-      // Seed ambient background smoke
-      for (let i = 0; i < MAX_AMBIENT; i++) {
-        const p = new SmokeParticle(Math.random() * width, Math.random() * height, false);
+      // Initial ambient particles
+      for (let i = 0; i < MAX_PARTICLES; i++) {
+        const p = new SmokeParticle();
         p.life = Math.random() * p.maxLife;
         particles.push(p);
       }
 
-      // Dynamic cursor interaction with velocity tracking
+      // Desktop Mouse Tracking
       let lastX = null, lastY = null;
       window.addEventListener('mousemove', (e) => {
-        const currentX = e.clientX;
-        const currentY = e.clientY;
+        if (lastX !== null && lastY !== null) {
+          const dx = e.clientX - lastX;
+          const dy = e.clientY - lastY;
+          const speed = Math.hypot(dx, dy);
 
-        const deltaX = lastX !== null ? currentX - lastX : 0;
-        const deltaY = lastY !== null ? currentY - lastY : 0;
-        lastX = currentX;
-        lastY = currentY;
-
-        // Spawn responsive luminous puffs along mouse trajectory
-        if (particles.length < MAX_TOTAL) {
-          particles.push(new SmokeParticle(currentX, currentY, true, deltaX, deltaY));
-          if (Math.abs(deltaX) + Math.abs(deltaY) > 6 && particles.length < MAX_TOTAL) {
-            particles.push(new SmokeParticle(currentX + (Math.random() - 0.5) * 12, currentY + (Math.random() - 0.5) * 12, true, deltaX * 0.6, deltaY * 0.6));
+          if (speed > 3 && particles.length < MAX_PARTICLES + 16) {
+            particles.push(new SmokeParticle(
+              e.clientX,
+              e.clientY,
+              dx * 0.05 + (Math.random() - 0.5) * 0.4,
+              dy * 0.05 - Math.random() * 0.5
+            ));
           }
         }
+        lastX = e.clientX;
+        lastY = e.clientY;
       });
 
-      function render() {
-        ctx.clearRect(0, 0, width, height);
+      // Mobile Touch Tracking
+      let lastTouchX = null, lastTouchY = null;
+      window.addEventListener('touchmove', (e) => {
+        if (!e.touches || !e.touches[0]) return;
+        const touch = e.touches[0];
+        if (lastTouchX !== null && lastTouchY !== null) {
+          const dx = touch.clientX - lastTouchX;
+          const dy = touch.clientY - lastTouchY;
+          const speed = Math.hypot(dx, dy);
 
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.update();
-          p.draw();
-          if (p.dead) {
-            particles.splice(i, 1);
+          if (speed > 2 && particles.length < MAX_PARTICLES + 16) {
+            particles.push(new SmokeParticle(
+              touch.clientX,
+              touch.clientY,
+              dx * 0.05 + (Math.random() - 0.5) * 0.4,
+              dy * 0.05 - Math.random() * 0.6
+            ));
           }
         }
+        lastTouchX = touch.clientX;
+        lastTouchY = touch.clientY;
+      }, { passive: true });
 
-        // Maintain ambient background density
-        const ambientCount = particles.filter(p => !p.isHover).length;
-        if (ambientCount < MAX_AMBIENT) {
-          particles.push(new SmokeParticle(Math.random() * width, height + 40, false));
+      window.addEventListener('touchstart', (e) => {
+        if (!e.touches || !e.touches[0]) return;
+        const touch = e.touches[0];
+        lastTouchX = touch.clientX;
+        lastTouchY = touch.clientY;
+        if (particles.length < MAX_PARTICLES + 12) {
+          particles.push(new SmokeParticle(touch.clientX, touch.clientY));
         }
+      }, { passive: true });
 
+      // Core Animation Loop
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        if (particles.length > MAX_PARTICLES) {
+          particles.shift();
+        }
         requestAnimationFrame(render);
       }
       render();
@@ -626,6 +747,7 @@
 
     // Copy to clipboard helper
     function copyToClipboard(text) {
+      triggerSpaceClick(1400, 0.05);
       const tempInput = document.createElement("input");
       tempInput.value = text;
       document.body.appendChild(tempInput);

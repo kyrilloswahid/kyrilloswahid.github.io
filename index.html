@@ -3,20 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kyrillos Wahid</title>
+  <title>Kyrillos Wahid // Systems & Reliability</title>
   
-  <!-- Favicon using real image asset -->
   <link rel="icon" type="image/png" href="KW_white.png">
   
-  <!-- Fonts: Space Grotesk & Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome for technical glyphs -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -48,7 +44,7 @@
   </script>
 
   <style>
-    /* Custom Sleek Scrollbar */
+    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 4px;
     }
@@ -57,7 +53,6 @@
     }
     ::-webkit-scrollbar-thumb {
       background: #222222;
-      border-radius: 2px;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #555555;
@@ -85,7 +80,6 @@
     .mono-card {
       background: rgba(12, 12, 12, 0.65);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
     }
@@ -108,7 +102,7 @@
       display: flex;
       width: max-content;
       will-change: transform;
-      animation: smoothTicker 28s linear infinite;
+      animation: smoothTicker 32s linear infinite;
     }
     .ticker-wrapper:hover {
       animation-play-state: paused;
@@ -129,17 +123,11 @@
   <!-- Radial Vignette -->
   <div class="fixed inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#030303_95%)] pointer-events-none z-0"></div>
 
-  <!-- Toast Notification Box -->
-  <div id="toast-box" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-mono-900 border border-mono-700 text-mono-100 text-xs px-4 py-3 rounded-lg shadow-2xl flex items-center space-x-2 font-mono">
-    <i class="fa-solid fa-check text-xs text-mono-400"></i>
-    <span id="toast-msg">BUFFER COPIED</span>
-  </div>
-
-  <!-- Top Sticky Navigation Bar -->
+  <!-- Top Navigation Bar -->
   <header class="w-full bg-mono-950/80 backdrop-blur-md border-b border-mono-800/80 sticky top-0 z-40 transition-all">
     <div class="max-w-6xl mx-auto px-6 h-32 sm:h-36 flex items-center justify-between">
-      <!-- Enlarged Monogram Logo -->
-      <a href="#hero" class="flex items-center group py-2" onclick="triggerSpaceClick()" aria-label="Kyrillos Wahid Home">
+      <!-- Big Monogram Logo -->
+      <a href="#hero" class="flex items-center group py-2">
         <img 
           src="KW_white.png" 
           alt="KW Logo" 
@@ -148,70 +136,40 @@
         >
       </a>
 
-      <!-- Desktop Navigation Links with Scroll Offsets -->
+      <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex items-center space-x-8 text-xs font-mono tracking-wider text-mono-400">
-        <a href="#about" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">01. PROFILE</a>
-        <a href="#projects" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">02. ARCHITECTURES</a>
-        <a href="#skills" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">03. CAPABILITIES</a>
-        <a href="#ecosystem" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors">04. ECOSYSTEM</a>
+        <a href="#about" class="hover:text-mono-50 transition-colors">01. PROFILE</a>
+        <a href="#projects" class="hover:text-mono-50 transition-colors">02. ARCHITECTURES</a>
+        <a href="#skills" class="hover:text-mono-50 transition-colors">03. CAPABILITIES</a>
+        <a href="#ecosystem" class="hover:text-mono-50 transition-colors">04. ECOSYSTEM</a>
       </nav>
 
-      <!-- Control Group: Audio Switch + Status Pill + Mobile Hamburger -->
+      <!-- Status Indicator & Mobile Hamburger Button -->
       <div class="flex items-center space-x-3">
-        <button 
-          id="sound-toggle-btn"
-          onclick="toggleAudio()" 
-          class="inline-flex items-center space-x-1.5 text-[10px] font-mono text-mono-400 border border-mono-800 hover:border-mono-600 bg-mono-900/90 hover:text-mono-100 px-2.5 py-1.5 rounded transition-all cursor-pointer"
-          title="Toggle Space Click Synthesizer"
-        >
-          <i id="sound-icon" class="fa-solid fa-volume-xmark text-mono-500"></i>
-          <span id="sound-label" class="tracking-wider">FX: OFF</span>
-        </button>
-
-        <span class="hidden sm:inline-flex items-center text-[10px] font-mono text-mono-400 border border-mono-800 bg-mono-900 px-3 py-1.5 rounded">
+        <!-- Status: ONLINE only -->
+        <span class="inline-flex items-center text-[10px] font-mono text-mono-400 border border-mono-800 bg-mono-900 px-3 py-1.5 rounded">
           <span class="w-1.5 h-1.5 rounded-full bg-mono-100 animate-pulse mr-2"></span>
-          SYS_ONLINE
+          ONLINE
         </span>
 
         <!-- Mobile Sandwich / Hamburger Button -->
         <button 
-          id="mobile-menu-btn"
-          onclick="toggleMobileMenu()"
-          class="md:hidden flex items-center justify-center w-10 h-10 rounded border border-mono-800 bg-mono-900/90 text-mono-300 hover:text-mono-50 hover:border-mono-600 transition-all cursor-pointer"
+          id="mobile-menu-btn" 
+          onclick="toggleMobileMenu()" 
+          class="md:hidden flex items-center justify-center w-9 h-9 rounded border border-mono-800 bg-mono-900/90 text-mono-300 hover:text-mono-50 hover:border-mono-600 transition-colors cursor-pointer"
           aria-label="Toggle Navigation Menu"
         >
-          <i id="mobile-menu-icon" class="fa-solid fa-bars text-sm"></i>
+          <i id="menu-icon" class="fa-solid fa-bars text-sm"></i>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Slide-Down Monochromatic Drawer Menu -->
-    <div 
-      id="mobile-drawer" 
-      class="hidden md:hidden border-t border-mono-800/80 bg-mono-950/95 backdrop-blur-xl px-6 py-6 transition-all duration-300"
-    >
-      <nav class="flex flex-col space-y-4 text-xs font-mono tracking-widest text-mono-300">
-        <a href="#about" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
-          <span>01. PROFILE</span>
-          <span class="text-mono-500">&rarr;</span>
-        </a>
-        <a href="#projects" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
-          <span>02. ARCHITECTURES</span>
-          <span class="text-mono-500">&rarr;</span>
-        </a>
-        <a href="#skills" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
-          <span>03. CAPABILITIES</span>
-          <span class="text-mono-500">&rarr;</span>
-        </a>
-        <a href="#ecosystem" onclick="closeMobileMenuAndNavigate()" class="flex items-center justify-between p-3 rounded border border-mono-850 bg-mono-900/50 hover:border-mono-600 hover:text-mono-50 hover:bg-mono-850 transition-colors">
-          <span>04. ECOSYSTEM</span>
-          <span class="text-mono-500">&rarr;</span>
-        </a>
-      </nav>
-      <div class="mt-4 pt-4 border-t border-mono-850 flex items-center justify-between text-[11px] font-mono text-mono-500">
-        <span>STATUS: SYS_ONLINE</span>
-        <span class="text-mono-400">KYRILLOS WAHID</span>
-      </div>
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-mono-800/80 bg-mono-950/95 backdrop-blur-xl px-6 py-4 space-y-3 font-mono text-xs tracking-wider">
+      <a href="#about" onclick="closeMobileMenu()" class="block py-2 text-mono-300 hover:text-mono-50 border-b border-mono-900 transition-colors">01. PROFILE</a>
+      <a href="#projects" onclick="closeMobileMenu()" class="block py-2 text-mono-300 hover:text-mono-50 border-b border-mono-900 transition-colors">02. ARCHITECTURES</a>
+      <a href="#skills" onclick="closeMobileMenu()" class="block py-2 text-mono-300 hover:text-mono-50 border-b border-mono-900 transition-colors">03. CAPABILITIES</a>
+      <a href="#ecosystem" onclick="closeMobileMenu()" class="block py-2 text-mono-300 hover:text-mono-50 transition-colors">04. ECOSYSTEM</a>
     </div>
   </header>
 
@@ -232,7 +190,7 @@
             KYRILLOS <span class="font-bold text-mono-500">WAHID</span>
           </h1>
           <p class="text-mono-300 text-base sm:text-lg leading-relaxed font-normal">
-            Computer & Systems Engineer specializing in declarative cloud platforms, GitOps automation, and high-reliability systems delivery across AWS, GCP, and Azure. Former SRE Intern at <span class="text-mono-100 font-medium">_VOIS</span>.
+            Computer & Systems Engineer specializing in declarative cloud platforms, GitOps automation, and high-reliability systems delivery across AWS, GCP, and Azure. Former SRE Intern at <span class="text-mono-100 font-medium">_VOIS</span>[cite: 3].
           </p>
         </div>
       </div>
@@ -270,7 +228,7 @@
         <div class="md:col-span-2 mono-card p-6 rounded-xl space-y-4">
           <h2 class="text-lg font-medium text-mono-100">Declarative systems, zero drift, and resilient lifecycles.</h2>
           <p class="text-xs sm:text-sm text-mono-300 leading-relaxed">
-            Graduated from Helwan University with a degree in Computer & Systems Engineering. My engineering background centers on building immutable delivery pipelines, orchestrating rootless Kubernetes environments with Helm, and enforcing automated security baselines via static analysis and policy gates.
+            Graduated from Helwan University with a degree in Computer & Systems Engineering[cite: 3]. My engineering background centers on building immutable delivery pipelines, orchestrating rootless Kubernetes environments with Helm, and enforcing automated security baselines via static analysis and policy gates[cite: 3].
           </p>
           <p class="text-xs sm:text-sm text-mono-400 leading-relaxed font-mono">
             Key focus areas: Kubernetes Orchestration &bull; Terraform IaC &bull; CI/CD Pipelines &bull; Linux Administration &bull; Microservice Security Scanning.
@@ -312,14 +270,14 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Project 1 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">ESHOP CI/CD MICROSERVICE</span>
               <span class="text-mono-500">_VOIS</span>
             </div>
             <p class="text-xs text-mono-300 leading-relaxed">
-              Engineered a production-level CI/CD pipeline for a TypeScript microservice. Integrated linting, Jest/Supertest unit testing, Whitesource license audits, Docker builds, and Trivy CVE vulnerability scans. Post-merge triggers semantic releases and Helm-based Kubernetes rollouts.
+              Engineered a production-level CI/CD pipeline for a TypeScript microservice. Integrated linting, Jest/Supertest unit testing, Whitesource license audits, Docker builds, and Trivy CVE vulnerability scans. Post-merge triggers semantic releases and Helm-based Kubernetes rollouts[cite: 3].
             </p>
           </div>
           <div class="pt-4 border-t border-mono-800/80 mt-4 flex items-center justify-between font-mono text-[11px] text-mono-400">
@@ -329,14 +287,14 @@
         </div>
 
         <!-- Project 2 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">3-TIER GITOPS PIPELINE</span>
               <span class="text-mono-500">DEPI CAPSTONE</span>
             </div>
             <p class="text-xs text-mono-300 leading-relaxed">
-              Designed and deployed a full 3-tier Node.js/MongoDB application. Automated infrastructure provisioning using Terraform, managed configuration state via Ansible, and containerized deployment with Jenkins CI/CD on Kubernetes with live Slack alerts.
+              Designed and deployed a full 3-tier Node.js/MongoDB application. Automated infrastructure provisioning using Terraform, managed configuration state via Ansible, and containerized deployment with Jenkins CI/CD on Kubernetes with live Slack alerts[cite: 3].
             </p>
           </div>
           <div class="pt-4 border-t border-mono-800/80 mt-4 flex items-center justify-between font-mono text-[11px] text-mono-400">
@@ -346,14 +304,14 @@
         </div>
 
         <!-- Project 3 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">TRUELENS AI MULTIMODAL</span>
               <span class="text-mono-500">UGRF-20 3RD PLACE</span>
             </div>
             <p class="text-xs text-mono-300 leading-relaxed">
-              Led a 4-engineer team building a multimodal deepfake detector (audio, image, text). Designed modular Flask backend Blueprints, JWT cookie session authentication, and SQLAlchemy ORM. Awarded 3rd place internationally among 800+ projects.
+              Led a 4-engineer team building a multimodal deepfake detector (audio, image, text). Designed modular Flask backend Blueprints, JWT cookie session authentication, and SQLAlchemy ORM. Awarded 3rd place internationally among 800+ projects[cite: 3].
             </p>
           </div>
           <div class="pt-4 border-t border-mono-800/80 mt-4 flex items-center justify-between font-mono text-[11px] text-mono-400">
@@ -363,14 +321,14 @@
         </div>
 
         <!-- Project 4 -->
-        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="triggerSpaceClick()">
+        <div class="mono-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer">
           <div class="space-y-3">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-mono-100 font-bold tracking-wider">ENTERPRISE REPO GOVERNANCE</span>
               <span class="text-mono-500">AUTOMATION</span>
             </div>
             <p class="text-xs text-mono-300 leading-relaxed">
-              Developed custom Bash automation to enforce organizational branch rules, permission templates, and secrets hygiene across dozens of repositories during enterprise-scale platform migration from GitLab to GitHub.
+              Developed custom Bash automation to enforce organizational branch rules, permission templates, and secrets hygiene across dozens of repositories during enterprise-scale platform migration from GitLab to GitHub[cite: 3].
             </p>
           </div>
           <div class="pt-4 border-t border-mono-800/80 mt-4 flex items-center justify-between font-mono text-[11px] text-mono-400">
@@ -422,7 +380,7 @@
       </div>
     </section>
 
-    <!-- Sub-brands & Ecosystem Ticker (Zero-Lag Hardware Accelerated) -->
+    <!-- Sub-brands & Ecosystem Ticker -->
     <section id="ecosystem" class="space-y-6 scroll-mt-40">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[04]</span>
@@ -430,119 +388,151 @@
         <span class="text-mono-400">Registered Entities</span>
       </div>
 
-      <div class="relative w-full overflow-hidden mono-card py-5 rounded-xl">
-        <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-mono-950 to-transparent z-10 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-mono-950 to-transparent z-10 pointer-events-none"></div>
+      <div class="relative w-full overflow-hidden mono-card py-6 rounded-xl">
+        <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-mono-950 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-mono-950 to-transparent z-10 pointer-events-none"></div>
 
         <div class="ticker-wrapper flex items-center font-mono">
           
           <!-- Ticker Block 1 -->
-          <div class="flex items-center space-x-6 pr-6 shrink-0">
+          <div class="flex items-center space-x-8 pr-8 shrink-0">
+            
             <!-- 1. Kyrillos Wahid -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <img src="KW_white.png" alt="KW Logo" class="h-6 w-auto object-contain opacity-90" onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}">
-              <div>
-                <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
-                <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="KW_white.png" alt="Kyrillos Wahid Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}">
+              </div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">KYRILLOS WAHID</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">CORE_IDENTITY</div>
               </div>
             </div>
+
             <!-- 2. Vision of the Wolf -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
-                <i class="fa-solid fa-shield-halved"></i>
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="votw_white.png" alt="Vision of the Wolf Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='votw.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};">
+                <div class="hidden h-14 w-14 rounded border border-mono-700 items-center justify-center text-mono-200 text-xl">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
               </div>
-              <div>
-                <div class="text-xs font-bold text-mono-100">VISION OF THE WOLF</div>
-                <div class="text-[9px] text-mono-500">FLAGSHIP_ECOSYSTEM</div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">VISION OF THE WOLF</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">FLAGSHIP_ECOSYSTEM</div>
               </div>
             </div>
+
             <!-- 3. Kpxls -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[10px] font-bold text-mono-300">
-                PX
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="kpxls_white.png" alt="Kpxls Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='kpxls.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};">
+                <div class="hidden h-14 w-14 rounded border border-mono-700 items-center justify-center text-mono-200 text-lg font-bold">
+                  PX
+                </div>
               </div>
-              <div>
-                <div class="text-xs font-bold text-mono-100">KPXLS</div>
-                <div class="text-[9px] text-mono-500">VISUAL_LABS</div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">KPXLS</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">CREATIVE_LABS</div>
               </div>
             </div>
+
             <!-- 4. AKONYTE -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
-                <i class="fa-solid fa-bolt"></i>
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="akonyte_white.png" alt="AKONYTE Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='akonyte.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};">
+                <div class="hidden h-14 w-14 rounded border border-mono-700 items-center justify-center text-mono-200 text-xl">
+                  <i class="fa-solid fa-bolt"></i>
+                </div>
               </div>
-              <div>
-                <div class="text-xs font-bold text-mono-100">AKONYTE</div>
-                <div class="text-[9px] text-mono-500">CYBER_DEFENSE</div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">AKONYTE</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">CYBER_DEFENSE</div>
               </div>
             </div>
+
           </div>
 
           <!-- Ticker Block 2 (Exact Duplicate for Continuous Loop) -->
-          <div class="flex items-center space-x-6 pr-6 shrink-0" aria-hidden="true">
+          <div class="flex items-center space-x-8 pr-8 shrink-0" aria-hidden="true">
+            
             <!-- 1. Kyrillos Wahid -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <img src="KW_white.png" alt="KW Logo" class="h-6 w-auto object-contain opacity-90" onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}">
-              <div>
-                <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
-                <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="KW_white.png" alt="Kyrillos Wahid Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='KW_white_2.png'; this.onerror=function(){this.src='KW.png';}">
+              </div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">KYRILLOS WAHID</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">CORE_IDENTITY</div>
               </div>
             </div>
+
             <!-- 2. Vision of the Wolf -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
-                <i class="fa-solid fa-shield-halved"></i>
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="votw_white.png" alt="Vision of the Wolf Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='votw.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};">
+                <div class="hidden h-14 w-14 rounded border border-mono-700 items-center justify-center text-mono-200 text-xl">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
               </div>
-              <div>
-                <div class="text-xs font-bold text-mono-100">VISION OF THE WOLF</div>
-                <div class="text-[9px] text-mono-500">FLAGSHIP_ECOSYSTEM</div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">VISION OF THE WOLF</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">FLAGSHIP_ECOSYSTEM</div>
               </div>
             </div>
+
             <!-- 3. Kpxls -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[10px] font-bold text-mono-300">
-                PX
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="kpxls_white.png" alt="Kpxls Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='kpxls.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};">
+                <div class="hidden h-14 w-14 rounded border border-mono-700 items-center justify-center text-mono-200 text-lg font-bold">
+                  PX
+                </div>
               </div>
-              <div>
-                <div class="text-xs font-bold text-mono-100">KPXLS</div>
-                <div class="text-[9px] text-mono-500">VISUAL_LABS</div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">KPXLS</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">CREATIVE_LABS</div>
               </div>
             </div>
+
             <!-- 4. AKONYTE -->
-            <div onclick="triggerSpaceClick()" class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0">
-              <div class="w-6 h-6 rounded border border-mono-700 flex items-center justify-center text-[11px] text-mono-300">
-                <i class="fa-solid fa-bolt"></i>
+            <div class="flex flex-col items-center justify-center p-4 min-w-[190px] rounded-lg border border-mono-800 bg-mono-900/80 hover:border-mono-500 transition-colors cursor-pointer shrink-0 group">
+              <div class="h-16 sm:h-20 flex items-center justify-center">
+                <img src="akonyte_white.png" alt="AKONYTE Logo" class="h-14 sm:h-16 w-auto max-w-[150px] object-contain transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='akonyte.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};">
+                <div class="hidden h-14 w-14 rounded border border-mono-700 items-center justify-center text-mono-200 text-xl">
+                  <i class="fa-solid fa-bolt"></i>
+                </div>
               </div>
-              <div>
-                <div class="text-xs font-bold text-mono-100">AKONYTE</div>
-                <div class="text-[9px] text-mono-500">CYBER_DEFENSE</div>
+              <div class="mt-3 text-center">
+                <div class="text-xs font-bold text-mono-100 tracking-wider">AKONYTE</div>
+                <div class="text-[9px] text-mono-500 mt-0.5">CYBER_DEFENSE</div>
               </div>
             </div>
+
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- Communication Strip with GitHub, LinkedIn, X, Email -->
+    <!-- Communication Strip -->
     <section class="border-t border-mono-800/80 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 font-mono text-xs text-mono-400">
       <div class="flex flex-wrap items-center gap-6">
-        <a href="https://github.com/kyrilloswahid" target="_blank" rel="noopener noreferrer" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
+        <a href="https://github.com/kyrilloswahid" target="_blank" rel="noopener noreferrer" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
           <i class="fa-brands fa-github text-sm"></i>
           <span>@kyrilloswahid</span>
         </a>
-        <a href="https://linkedin.com/in/kyrilloswahid" target="_blank" rel="noopener noreferrer" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
+        <a href="https://linkedin.com/in/kyrilloswahid" target="_blank" rel="noopener noreferrer" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
           <i class="fa-brands fa-linkedin text-sm"></i>
           <span>in/kyrilloswahid</span>
         </a>
-        <a href="https://x.com/kyrilloswahid" target="_blank" rel="noopener noreferrer" onclick="triggerSpaceClick()" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
+        <a href="https://x.com/kyrilloswahid" target="_blank" rel="noopener noreferrer" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
           <i class="fa-brands fa-x-twitter text-sm"></i>
           <span>@kyrilloswahid</span>
         </a>
-        <button onclick="copyToClipboard('kyrilloswahid@outlook.com')" class="hover:text-mono-50 transition-colors flex items-center space-x-2 cursor-pointer">
+        <a href="mailto:kyrilloswahid@outlook.com" class="hover:text-mono-50 transition-colors flex items-center space-x-2">
           <i class="fa-solid fa-envelope text-sm"></i>
           <span>kyrilloswahid@outlook.com</span>
-        </button>
+        </a>
       </div>
 
       <div class="text-mono-500 text-[11px]">
@@ -552,125 +542,32 @@
 
   </main>
 
-  <!-- Interactive Smoke & Audio Synthesizer Engine -->
+  <!-- Interactive Smoke Simulation Script -->
   <script>
     // -------------------------------------------------------------
-    // Mobile Drawer Navigation Logic
+    // Mobile Navigation Drawer Toggle Logic
     // -------------------------------------------------------------
-    let mobileMenuOpen = false;
-
     function toggleMobileMenu() {
-      triggerSpaceClick(960, 0.04);
-      const drawer = document.getElementById('mobile-drawer');
-      const icon = document.getElementById('mobile-menu-icon');
-      mobileMenuOpen = !mobileMenuOpen;
-
-      if (mobileMenuOpen) {
-        drawer.classList.remove('hidden');
-        icon.className = 'fa-solid fa-xmark text-sm text-mono-100';
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('menu-icon');
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        icon.className = 'fa-solid fa-xmark text-sm';
       } else {
-        drawer.classList.add('hidden');
-        icon.className = 'fa-solid fa-bars text-sm text-mono-300';
+        menu.classList.add('hidden');
+        icon.className = 'fa-solid fa-bars text-sm';
       }
     }
 
-    function closeMobileMenuAndNavigate() {
-      triggerSpaceClick(1100, 0.035);
-      const drawer = document.getElementById('mobile-drawer');
-      const icon = document.getElementById('mobile-menu-icon');
-      mobileMenuOpen = false;
-      drawer.classList.add('hidden');
-      icon.className = 'fa-solid fa-bars text-sm text-mono-300';
-    }
-
-    // -------------------------------------------------------------
-    // 1. Futuristic Space Click Audio Synthesizer (Web Audio API)
-    // -------------------------------------------------------------
-    let soundEnabled = false;
-    let audioCtx = null;
-
-    function getAudioContext() {
-      if (!audioCtx) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (AudioContextClass) {
-          audioCtx = new AudioContextClass();
-        }
-      }
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      return audioCtx;
-    }
-
-    function toggleAudio() {
-      const ctx = getAudioContext();
-      soundEnabled = !soundEnabled;
-      
-      const soundIcon = document.getElementById('sound-icon');
-      const soundLabel = document.getElementById('sound-label');
-
-      if (soundEnabled) {
-        soundIcon.className = 'fa-solid fa-volume-high text-mono-100';
-        soundLabel.innerText = 'FX: ON';
-        soundLabel.className = 'tracking-wider text-mono-100';
-        triggerSpaceClick(1200, 0.04);
-      } else {
-        soundIcon.className = 'fa-solid fa-volume-xmark text-mono-500';
-        soundLabel.innerText = 'FX: OFF';
-        soundLabel.className = 'tracking-wider text-mono-400';
-      }
-    }
-
-    function triggerSpaceClick(targetFreq = 840, duration = 0.035) {
-      if (!soundEnabled) return;
-      try {
-        const ctx = getAudioContext();
-        if (!ctx) return;
-
-        const now = ctx.currentTime;
-
-        // Sub/body carrier oscillator
-        const osc = ctx.createOscillator();
-        const gainNode = ctx.createGain();
-
-        // FM Harmonic high-pass click
-        const highOsc = ctx.createOscillator();
-        const highGain = ctx.createGain();
-
-        // Deep futuristic chirp
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(targetFreq, now);
-        osc.frequency.exponentialRampToValueAtTime(140, now + duration);
-
-        gainNode.gain.setValueAtTime(0.04, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-        // Crisp metallic transient
-        highOsc.type = 'triangle';
-        highOsc.frequency.setValueAtTime(2400, now);
-        highOsc.frequency.exponentialRampToValueAtTime(320, now + duration * 0.6);
-
-        highGain.gain.setValueAtTime(0.02, now);
-        highGain.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.6);
-
-        // Routing
-        osc.connect(gainNode);
-        gainNode.connect(ctx.destination);
-
-        highOsc.connect(highGain);
-        highGain.connect(ctx.destination);
-
-        osc.start(now);
-        highOsc.start(now);
-        osc.stop(now + duration);
-        highOsc.stop(now + duration * 0.6);
-      } catch (err) {
-        console.error('Audio engine error:', err);
-      }
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('menu-icon');
+      menu.classList.add('hidden');
+      icon.className = 'fa-solid fa-bars text-sm';
     }
 
     // -------------------------------------------------------------
-    // 2. Responsive Smoke Simulation (Desktop Mouse + Mobile Touch)
+    // Responsive Smoke Simulation (Mouse + Mobile Touch)
     // -------------------------------------------------------------
     (function initResponsiveSmoke() {
       const canvas = document.getElementById('smoke-canvas');
@@ -737,14 +634,14 @@
         }
       }
 
-      // Initial ambient particles
+      // Initial particles
       for (let i = 0; i < MAX_PARTICLES; i++) {
         const p = new SmokeParticle();
         p.life = Math.random() * p.maxLife;
         particles.push(p);
       }
 
-      // Desktop Mouse Tracking
+      // Mouse Move
       let lastX = null, lastY = null;
       window.addEventListener('mousemove', (e) => {
         if (lastX !== null && lastY !== null) {
@@ -765,7 +662,7 @@
         lastY = e.clientY;
       });
 
-      // Mobile Touch Tracking
+      // Touch Events for Mobile Smoke
       let lastTouchX = null, lastTouchY = null;
       window.addEventListener('touchmove', (e) => {
         if (!e.touches || !e.touches[0]) return;
@@ -798,7 +695,6 @@
         }
       }, { passive: true });
 
-      // Core Animation Loop
       function render() {
         ctx.clearRect(0, 0, width, height);
         for (let i = 0; i < particles.length; i++) {
@@ -812,25 +708,6 @@
       }
       render();
     })();
-
-    // Copy to clipboard helper
-    function copyToClipboard(text) {
-      triggerSpaceClick(1400, 0.05);
-      const tempInput = document.createElement("input");
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-
-      const toast = document.getElementById('toast-box');
-      const toastMsg = document.getElementById('toast-msg');
-      toastMsg.innerText = `COPIED: ${text}`;
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
-      }, 3000);
-    }
   </script>
 </body>
 </html>

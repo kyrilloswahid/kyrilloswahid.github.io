@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kyrillos Wahid // Systems & Reliability</title>
   
+  <!-- Favicon using real image asset -->
+  <link rel="icon" type="image/png" href="KW_white_2.png">
+  
   <!-- Fonts: Space Grotesk & Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,8 +115,8 @@
   <!-- Grain Overlay -->
   <div class="film-grain"></div>
 
-  <!-- Smoke Canvas Simulation -->
-  <canvas id="smoke-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-45"></canvas>
+  <!-- Smoke Canvas Simulation (Slightly boosted opacity for ethereal depth) -->
+  <canvas id="smoke-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-70"></canvas>
 
   <!-- Fine Engineering Grid Backdrop -->
   <div class="fixed inset-0 bg-grid pointer-events-none z-0"></div>
@@ -130,24 +133,9 @@
   <!-- Top Sticky Navigation Bar -->
   <header class="w-full bg-mono-950/70 backdrop-blur-md border-b border-mono-800/80 sticky top-0 z-40 transition-all">
     <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-      <!-- Clean, Enlarged Geometric KW Monogram Vector -->
+      <!-- Clean, Prominent KW Monogram -->
       <a href="#hero" class="flex items-center group" aria-label="Kyrillos Wahid Home">
-        <svg class="h-9 w-auto text-mono-100 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 1000 350" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <!-- K Stem -->
-          <polygon points="260,30 380,30 135,280 20,280"/>
-          <!-- K Upper Wing -->
-          <polygon points="360,195 240,195 385,30 525,30"/>
-          <!-- K Lower Spur -->
-          <polygon points="340,195 480,300 340,300 240,195"/>
-          <!-- W 1st Diagonal -->
-          <polygon points="410,30 540,30 350,300 220,300"/>
-          <!-- W 2nd Diagonal -->
-          <polygon points="560,30 690,30 500,300 370,300"/>
-          <!-- W 3rd Diagonal -->
-          <polygon points="710,30 840,30 650,300 520,300"/>
-          <!-- W 4th Diagonal Finish -->
-          <polygon points="860,30 985,30 795,300 670,300"/>
-        </svg>
+        <img src="KW_white.png" alt="KW Logo" class="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='KW.png';">
       </a>
 
       <!-- Navigation Links -->
@@ -171,7 +159,7 @@
   <!-- Main View -->
   <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-12 md:py-20 flex flex-col gap-24 relative z-10">
 
-    <!-- Hero Section -->
+    <!-- Hero Section (Clean Minimal Typography, No Side Logo) -->
     <section id="hero" class="flex flex-col items-start gap-8 pt-6 md:pt-10">
       <div class="flex items-center space-x-3 text-mono-500 font-mono text-xs tracking-widest uppercase">
         <span>[00]</span>
@@ -179,27 +167,14 @@
         <span class="text-mono-400">Site Reliability & Cloud Infrastructure</span>
       </div>
 
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between w-full gap-8 border-b border-mono-800/80 pb-12">
-        <div class="space-y-4 max-w-2xl">
-          <h1 class="text-4xl sm:text-6xl font-light tracking-tight text-mono-50 leading-tight">
+      <div class="w-full border-b border-mono-800/80 pb-12">
+        <div class="space-y-4 max-w-3xl">
+          <h1 class="text-4xl sm:text-6xl md:text-7xl font-light tracking-tight text-mono-50 leading-tight">
             KYRILLOS <span class="font-bold text-mono-500">WAHID</span>
           </h1>
-          <p class="text-mono-300 text-sm sm:text-base leading-relaxed font-normal">
+          <p class="text-mono-300 text-sm sm:text-base md:text-lg leading-relaxed font-normal">
             Computer & Systems Engineer specializing in declarative cloud platforms, GitOps automation, and high-reliability systems delivery across AWS, GCP, and Azure. Former SRE Intern at <span class="text-mono-100 font-medium">_VOIS</span>.
           </p>
-        </div>
-
-        <!-- Monochromatic Hero Logo Display -->
-        <div class="mono-card p-6 sm:p-8 rounded-xl flex items-center justify-center shrink-0 self-center md:self-auto border border-mono-800 shadow-2xl group">
-          <svg class="w-36 sm:w-48 h-auto text-mono-50 opacity-90 transition-opacity group-hover:opacity-100 drop-shadow-[0_0_20px_rgba(255,255,255,0.06)]" viewBox="0 0 1000 350" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="260,30 380,30 135,280 20,280"/>
-            <polygon points="360,195 240,195 385,30 525,30"/>
-            <polygon points="340,195 480,300 340,300 240,195"/>
-            <polygon points="410,30 540,30 350,300 220,300"/>
-            <polygon points="560,30 690,30 500,300 370,300"/>
-            <polygon points="710,30 840,30 650,300 520,300"/>
-            <polygon points="860,30 985,30 795,300 670,300"/>
-          </svg>
         </div>
       </div>
 
@@ -403,15 +378,7 @@
         <div class="marquee-track flex items-center gap-6 pl-4 font-mono">
           <!-- Item 1 -->
           <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <svg class="h-4 w-auto text-mono-100 opacity-80" viewBox="0 0 1000 350" fill="currentColor">
-              <polygon points="260,30 380,30 135,280 20,280"/>
-              <polygon points="360,195 240,195 385,30 525,30"/>
-              <polygon points="340,195 480,300 340,300 240,195"/>
-              <polygon points="410,30 540,30 350,300 220,300"/>
-              <polygon points="560,30 690,30 500,300 370,300"/>
-              <polygon points="710,30 840,30 650,300 520,300"/>
-              <polygon points="860,30 985,30 795,300 670,300"/>
-            </svg>
+            <img src="KW_white.png" alt="KW Logo" class="h-4 sm:h-5 w-auto object-contain opacity-80" onerror="this.onerror=null; this.src='KW.png';">
             <div>
               <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
               <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
@@ -450,15 +417,7 @@
 
           <!-- Clones for Seamless Infinite Scroll -->
           <div class="flex items-center space-x-3 px-5 py-2.5 rounded-lg border border-mono-800 bg-mono-900/80 shrink-0">
-            <svg class="h-4 w-auto text-mono-100 opacity-80" viewBox="0 0 1000 350" fill="currentColor">
-              <polygon points="260,30 380,30 135,280 20,280"/>
-              <polygon points="360,195 240,195 385,30 525,30"/>
-              <polygon points="340,195 480,300 340,300 240,195"/>
-              <polygon points="410,30 540,30 350,300 220,300"/>
-              <polygon points="560,30 690,30 500,300 370,300"/>
-              <polygon points="710,30 840,30 650,300 520,300"/>
-              <polygon points="860,30 985,30 795,300 670,300"/>
-            </svg>
+            <img src="KW_white.png" alt="KW Logo" class="h-4 sm:h-5 w-auto object-contain opacity-80" onerror="this.onerror=null; this.src='KW.png';">
             <div>
               <div class="text-xs font-bold text-mono-100">KYRILLOS WAHID</div>
               <div class="text-[9px] text-mono-500">CORE_IDENTITY</div>
@@ -526,7 +485,8 @@
       const ctx = canvas.getContext('2d');
       let width, height;
       let particles = [];
-      const MAX_PARTICLES = 45;
+      const MAX_AMBIENT = 40;
+      const MAX_TOTAL = 90;
 
       function resize() {
         width = canvas.width = window.innerWidth;
@@ -536,44 +496,70 @@
       resize();
 
       class SmokeParticle {
-        constructor(x, y) {
-          this.reset(x, y);
+        constructor(x, y, isHover = false, speedX = 0, speedY = 0) {
+          this.isHover = isHover;
+          this.reset(x, y, isHover, speedX, speedY);
         }
 
-        reset(x, y) {
-          this.x = x || Math.random() * width;
-          this.y = y || height + Math.random() * 80;
-          this.vx = (Math.random() - 0.5) * 0.35;
-          this.vy = -(Math.random() * 0.45 + 0.2);
-          this.radius = Math.random() * 90 + 70;
-          this.maxLife = Math.random() * 320 + 200;
+        reset(x, y, isHover = false, speedX = 0, speedY = 0) {
+          this.isHover = isHover;
+          if (isHover) {
+            this.x = x + (Math.random() - 0.5) * 16;
+            this.y = y + (Math.random() - 0.5) * 16;
+            this.vx = (Math.random() - 0.5) * 1.2 + (speedX * 0.18);
+            this.vy = -(Math.random() * 1.4 + 0.6) + (speedY * 0.18);
+            this.radius = Math.random() * 45 + 35;
+            this.expansionRate = Math.random() * 0.6 + 0.45;
+            this.maxLife = Math.random() * 100 + 75;
+            this.alphaPeak = Math.random() * 0.12 + 0.16; // Noticeable, silky hover glow
+          } else {
+            this.x = x !== undefined ? x : Math.random() * width;
+            this.y = y !== undefined ? y : height + Math.random() * 80;
+            this.vx = (Math.random() - 0.5) * 0.65;
+            this.vy = -(Math.random() * 0.85 + 0.45); // Faster, more fluid upward draft
+            this.radius = Math.random() * 95 + 65;
+            this.expansionRate = 0.38;
+            this.maxLife = Math.random() * 260 + 160;
+            this.alphaPeak = Math.random() * 0.08 + 0.12;
+          }
           this.life = 0;
-          this.alphaPeak = Math.random() * 0.08 + 0.03;
         }
 
         update() {
           this.x += this.vx;
           this.y += this.vy;
           this.life++;
-          this.radius += 0.22;
+          this.radius += this.expansionRate;
+
+          // Gentle ambient drift drag
+          this.vx *= 0.985;
+          this.vy *= 0.99;
 
           if (this.life >= this.maxLife || this.y < -this.radius) {
-            this.reset();
+            if (this.isHover) {
+              this.dead = true;
+            } else {
+              this.reset();
+            }
           }
         }
 
         draw() {
           const progress = this.life / this.maxLife;
           let currentAlpha = 0;
-          if (progress < 0.3) {
-            currentAlpha = (progress / 0.3) * this.alphaPeak;
+          if (progress < 0.22) {
+            currentAlpha = (progress / 0.22) * this.alphaPeak;
           } else {
-            currentAlpha = (1 - (progress - 0.3) / 0.7) * this.alphaPeak;
+            currentAlpha = (1 - (progress - 0.22) / 0.78) * this.alphaPeak;
           }
 
+          if (currentAlpha <= 0.001) return;
+
           const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-          grad.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha})`);
-          grad.addColorStop(0.5, `rgba(180, 180, 180, ${currentAlpha * 0.4})`);
+          // Pure white-to-neutral soft luminance gradient
+          grad.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha * 1.15})`);
+          grad.addColorStop(0.35, `rgba(215, 215, 220, ${currentAlpha * 0.65})`);
+          grad.addColorStop(0.7, `rgba(160, 160, 170, ${currentAlpha * 0.22})`);
           grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
           ctx.fillStyle = grad;
@@ -583,31 +569,51 @@
         }
       }
 
-      for (let i = 0; i < MAX_PARTICLES; i++) {
-        const p = new SmokeParticle();
+      // Seed ambient background smoke
+      for (let i = 0; i < MAX_AMBIENT; i++) {
+        const p = new SmokeParticle(Math.random() * width, Math.random() * height, false);
         p.life = Math.random() * p.maxLife;
         particles.push(p);
       }
 
-      // Cursor interactive smoke generation
-      let mouseX = width / 2, mouseY = height / 2;
+      // Dynamic cursor interaction with velocity tracking
+      let lastX = null, lastY = null;
       window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        if (Math.random() > 0.65 && particles.length < MAX_PARTICLES + 10) {
-          particles.push(new SmokeParticle(mouseX, mouseY));
+        const currentX = e.clientX;
+        const currentY = e.clientY;
+
+        const deltaX = lastX !== null ? currentX - lastX : 0;
+        const deltaY = lastY !== null ? currentY - lastY : 0;
+        lastX = currentX;
+        lastY = currentY;
+
+        // Spawn responsive luminous puffs along mouse trajectory
+        if (particles.length < MAX_TOTAL) {
+          particles.push(new SmokeParticle(currentX, currentY, true, deltaX, deltaY));
+          if (Math.abs(deltaX) + Math.abs(deltaY) > 6 && particles.length < MAX_TOTAL) {
+            particles.push(new SmokeParticle(currentX + (Math.random() - 0.5) * 12, currentY + (Math.random() - 0.5) * 12, true, deltaX * 0.6, deltaY * 0.6));
+          }
         }
       });
 
       function render() {
         ctx.clearRect(0, 0, width, height);
-        for (let i = 0; i < particles.length; i++) {
-          particles[i].update();
-          particles[i].draw();
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.update();
+          p.draw();
+          if (p.dead) {
+            particles.splice(i, 1);
+          }
         }
-        if (particles.length > MAX_PARTICLES) {
-          particles.shift();
+
+        // Maintain ambient background density
+        const ambientCount = particles.filter(p => !p.isHover).length;
+        if (ambientCount < MAX_AMBIENT) {
+          particles.push(new SmokeParticle(Math.random() * width, height + 40, false));
         }
+
         requestAnimationFrame(render);
       }
       render();
